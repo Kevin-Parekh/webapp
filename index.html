@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build Web Apps with AI Prompts | TICL Academy Student Guide</title>
+<meta name="description" content="TICL Academy beginner guide: build a responsive static website and a Python Flask web app only by copy-pasting prompts into any AI chatbot, plus AI debugging skills.">
+<meta name="theme-color" content="#1E3A8A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E3A8A'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='26' font-weight='700' fill='%23F97316' text-anchor='middle'%3EAI%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --blue:#1E3A8A; --blue2:#2563EB; --orange:#F97316; --ink:#0F172A; --text:#1F2937; --muted:#64748B;
+  --bg:#F5F7FB; --card:#FFFFFF; --line:#E2E8F0; --soft:#EEF2FF; --green:#16A34A; --red:#DC2626; --yellow:#F59E0B;
+  --code:#0B1220; --codetext:#E2E8F0; --radius:14px; --shadow:0 6px 24px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.6;font-size:16px}
+a{color:var(--blue2)}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;background:var(--soft);padding:1px 6px;border-radius:6px;font-size:.92em;word-break:break-word}
+h1,h2,h3,h4{color:var(--ink);line-height:1.25}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.muted{color:var(--muted)}
+.skip{position:absolute;left:-999px;top:0;background:#fff;padding:8px 12px;z-index:100}
+.skip:focus{left:10px;top:10px}
+
+/* top header */
+.topbar{background:linear-gradient(135deg,var(--blue),#312E81);color:#fff}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.15rem}
+.brand-logo{width:38px;height:38px;border-radius:10px;background:var(--orange);display:grid;place-items:center;font-weight:900;color:#fff}
+.brand small{display:block;font-weight:500;font-size:.75rem;opacity:.85}
+.topbar a.link{color:#fff;opacity:.9;font-size:.9rem}
+.hero{background:linear-gradient(135deg,var(--blue),#312E81);color:#fff;padding:20px 0 70px}
+.hero h1{color:#fff;font-size:clamp(1.7rem,4vw,2.8rem);margin:.2em 0}
+.hero p.lead{font-size:clamp(1rem,1.6vw,1.15rem);max-width:820px;opacity:.95}
+.pill{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:4px 12px;border-radius:999px;font-size:.85rem}
+.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.hero-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:14px}
+.hero-card b{display:block;font-size:1.05rem}
+.hero-card span{font-size:.88rem;opacity:.9}
+
+/* tabs */
+.tabs-shell{position:sticky;top:0;z-index:50;background:var(--bg);margin-top:-34px;padding-top:0}
+.tabs{display:flex;gap:8px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:8px;overflow-x:auto}
+.tab{flex:1;min-width:max-content;border:0;background:transparent;padding:12px 16px;border-radius:10px;font-weight:700;font-size:.98rem;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}
+.tab .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--blue);font-size:.8rem}
+.tab:hover{background:var(--soft);color:var(--blue)}
+.tab[aria-selected="true"]{background:var(--blue);color:#fff}
+.tab[aria-selected="true"] .n{background:var(--orange);color:#fff}
+.tab:focus-visible,.copy-btn:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+
+.panel{display:none;padding:28px 0 60px}
+.panel.active{display:block}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;align-items:start}
+.side{position:sticky;top:86px;max-height:calc(100vh - 100px);overflow:auto;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+.side h4{margin:0 0 8px;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.side ol{list-style:none;margin:0;padding:0}
+.side li a{display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border-radius:8px;text-decoration:none;color:var(--text);font-size:.86rem;line-height:1.3}
+.side li a span{flex:0 0 22px;height:22px;border-radius:50%;background:var(--soft);color:var(--blue);display:grid;place-items:center;font-size:.72rem;font-weight:700}
+.side li a:hover{background:var(--soft)}
+.side li a.is-done span{background:var(--green);color:#fff}
+.side .sec-links a{display:block;padding:6px 8px;font-size:.86rem;text-decoration:none;border-radius:8px;color:var(--text)}
+.side .sec-links a:hover{background:var(--soft)}
+.progress{margin:6px 0 14px}
+.progress-bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#22C55E);transition:width .3s}
+.progress small{color:var(--muted)}
+
+/* cards */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:22px}
+.card h2{margin-top:0;font-size:clamp(1.3rem,2.4vw,1.7rem)}
+.card h3{font-size:1.15rem}
+.intro-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.box{border:1px solid var(--line);border-radius:12px;padding:16px;background:#FCFDFF}
+.box h4{margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{background:var(--soft);color:var(--blue);padding:4px 10px;border-radius:999px;font-size:.82rem;font-weight:600}
+.tree{background:var(--code);color:var(--codetext);border-radius:12px;padding:16px;font-family:ui-monospace,Consolas,monospace;font-size:.85rem;white-space:pre;overflow-x:auto;line-height:1.5;margin:0}
+.phases{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;counter-reset:ph}
+.phase{background:var(--soft);border-radius:12px;padding:12px;font-size:.88rem;position:relative}
+.phase b{display:block;color:var(--blue);margin-bottom:4px}
+.phase em{font-style:normal;font-size:.78rem;color:var(--muted)}
+.how{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:10px}
+.how div{background:#FFF7ED;border:1px solid #FED7AA;border-radius:12px;padding:12px;font-size:.88rem;text-align:center}
+.how div b{display:grid;place-items:center;width:30px;height:30px;margin:0 auto 6px;border-radius:50%;background:var(--orange);color:#fff}
+.note{border-left:4px solid var(--orange);background:#FFF7ED;padding:12px 14px;border-radius:8px;margin:14px 0;font-size:.95rem}
+.note.blue{border-color:var(--blue2);background:#EFF6FF}
+.note.green{border-color:var(--green);background:#F0FDF4}
+.note.red{border-color:var(--red);background:#FEF2F2}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);color:var(--ink);font-size:.84rem;text-transform:uppercase;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td code{white-space:nowrap}
+kbd{font-family:inherit;background:#fff;border:1px solid #CBD5E1;border-bottom-width:3px;border-radius:6px;padding:1px 6px;font-size:.85em;white-space:nowrap}
+
+/* steps */
+.step{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:22px;border-top:4px solid var(--blue2);transition:border-color .2s}
+.step.done{border-top-color:var(--green)}
+.step-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step-head h3{margin:0;flex:1;font-size:1.18rem;min-width:200px}
+.step-num{background:var(--blue);color:#fff;font-weight:800;font-size:.8rem;padding:5px 12px;border-radius:999px;white-space:nowrap}
+.step.done .step-num{background:var(--green)}
+.done-toggle{display:flex;align-items:center;gap:6px;font-size:.88rem;font-weight:600;color:var(--muted);cursor:pointer;background:var(--soft);padding:6px 12px;border-radius:999px;user-select:none}
+.done-toggle input{width:17px;height:17px;accent-color:var(--green);cursor:pointer}
+.step.done .done-toggle{background:#DCFCE7;color:var(--green)}
+.what{margin:14px 0}
+.step-grid{display:grid;grid-template-columns:3fr 2fr;gap:16px;margin-top:14px}
+.after,.check{border-radius:12px;padding:12px 16px}
+.after{background:#F8FAFC;border:1px solid var(--line)}
+.check{background:#F0FDF4;border:1px solid #BBF7D0}
+.after h4,.check h4{margin:0 0 6px;font-size:.95rem}
+.after ol{margin:0;padding-left:20px;font-size:.92rem}
+.check p{margin:0;font-size:.92rem}
+
+/* prompt */
+.prompt{background:var(--code);border-radius:12px;overflow:hidden;margin:12px 0;border:1px solid #1E293B}
+.prompt-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 10px 8px 14px;background:#111A2E;border-bottom:1px solid #1E293B;position:sticky;top:0}
+.prompt-label{color:#93C5FD;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;background:var(--orange);color:#fff;border:0;border-radius:8px;padding:7px 14px;font-weight:700;font-size:.86rem;cursor:pointer;font-family:inherit;transition:transform .1s,background .2s}
+.copy-btn:hover{background:#EA580C}
+.copy-btn:active{transform:scale(.96)}
+.copy-btn.copied{background:var(--green)}
+.copy-btn.failed{background:var(--red)}
+.prompt pre{margin:0;padding:14px 16px;color:var(--codetext);font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-size:.84rem;line-height:1.55;white-space:pre-wrap;word-wrap:break-word;max-height:420px;overflow:auto}
+.prompt.cmd pre{max-height:none;color:#A7F3D0}
+
+/* debugging */
+.loop{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:14px 0}
+.loop div{background:var(--soft);border-radius:12px;padding:12px 10px;text-align:center;font-size:.86rem;position:relative}
+.loop div b{display:grid;place-items:center;width:34px;height:34px;margin:0 auto 6px;border-radius:50%;background:var(--blue);color:#fff;font-size:.95rem}
+.loop div:not(:last-child)::after{content:"\2192";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--orange);font-weight:900;z-index:1}
+.err{border:1px solid var(--line);border-radius:12px;margin:10px 0;background:#fff}
+.err summary{cursor:pointer;padding:12px 14px;font-weight:700;display:flex;gap:10px;align-items:center;list-style:none}
+.err summary::-webkit-details-marker{display:none}
+.err summary::after{content:"+";margin-left:auto;font-size:1.3rem;color:var(--muted)}
+.err[open] summary::after{content:"\2212"}
+.err summary code{background:transparent;padding:0;font-size:.9rem;color:var(--red)}
+.err-ic{flex:0 0 24px;height:24px;border-radius:50%;background:#FEE2E2;color:var(--red);display:grid;place-items:center;font-weight:900}
+.err > p,.err > .prompt{margin-left:14px;margin-right:14px}
+.err > .prompt{margin-bottom:14px}
+
+/* mock screenshots */
+.mock-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.mock{border-radius:12px;overflow:hidden;border:1px solid #CBD5E1;background:#fff;box-shadow:var(--shadow)}
+.mock-cap{font-size:.85rem;color:var(--muted);margin:8px 2px 0}
+.win-bar{display:flex;align-items:center;gap:6px;padding:8px 10px;background:#E2E8F0}
+.win-bar i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.win-bar i:nth-child(1){background:#EF4444}.win-bar i:nth-child(2){background:#F59E0B}.win-bar i:nth-child(3){background:#22C55E}
+.url{flex:1;background:#fff;border-radius:6px;padding:3px 10px;font-size:.75rem;color:#475569;margin-left:8px;font-family:ui-monospace,Consolas,monospace;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.fake-page{padding:12px;background:#F8FAFC;height:96px;position:relative}
+.fake-nav{height:18px;background:#4F46E5;border-radius:4px;width:100%}
+.fake-line{height:10px;background:#CBD5E1;border-radius:4px;margin-top:10px;width:70%}
+.fake-line.s{width:45%}
+.fake-broken{position:absolute;right:12px;top:40px;width:120px;height:46px;border:2px dashed var(--red);border-radius:6px;display:grid;place-items:center;font-size:.7rem;color:var(--red);font-weight:700;background:#fff}
+.devtools{background:#202124;color:#E8EAED;font-family:ui-monospace,Consolas,monospace;font-size:.74rem}
+.dt-tabs{display:flex;gap:14px;padding:6px 10px;background:#292A2D;border-bottom:1px solid #3C4043;color:#9AA0A6}
+.dt-tabs .on{color:#8AB4F8;border-bottom:2px solid #8AB4F8}
+.dt-line{padding:6px 10px;border-bottom:1px solid #3C4043;display:flex;gap:8px;justify-content:space-between}
+.dt-line.err-l{background:#290000;color:#F28B82}
+.dt-line.ok{color:#9AA0A6}
+.dt-line .src{color:#9AA0A6;text-decoration:underline;white-space:nowrap}
+.term{background:#0C0C0C;color:#CCCCCC;font-family:ui-monospace,Consolas,monospace;font-size:.74rem;padding:12px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.term .p{color:#4ADE80}.term .e{color:#F87171;font-weight:700}.term .f{color:#FDE68A}
+.callouts{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:6px}
+.callouts li{position:relative;padding-left:30px;font-size:.86rem}
+.callouts li > b:first-child{position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:.75rem}
+.chat-mock{padding:14px;background:#F8FAFC}
+.chat-box{border:1px solid #CBD5E1;border-radius:16px;background:#fff;padding:10px}
+.attach{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:6px 8px;font-size:.75rem;background:#F1F5F9}
+.attach .thumb{width:42px;height:30px;border-radius:5px;background:linear-gradient(#202124 55%,#290000 55%);position:relative}
+.attach .thumb::after{content:"";position:absolute;left:4px;right:4px;bottom:4px;height:3px;background:#F28B82;border-radius:2px}
+.chat-text{font-size:.78rem;color:#334155;margin:8px 2px;font-family:ui-monospace,Consolas,monospace;line-height:1.5}
+.chat-actions{display:flex;justify-content:space-between;align-items:center}
+.chat-actions .clip{width:30px;height:30px;border-radius:50%;border:1px solid #CBD5E1;display:grid;place-items:center;font-size:1rem;color:#475569}
+.chat-actions .send{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:.9rem}
+.tag{position:relative;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--orange);color:#fff;font-size:.7rem;font-weight:800;font-family:system-ui,sans-serif;vertical-align:middle;margin-left:4px}
+
+/* footer */
+.site-footer{background:var(--ink);color:#CBD5E1;padding:30px 0;font-size:.9rem}
+.site-footer a{color:#FDBA74}
+.site-footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:.9rem;font-weight:600;box-shadow:var(--shadow);transition:transform .25s;z-index:200}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.to-top{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;border:0;background:var(--blue);color:#fff;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}
+.to-top.show{opacity:1;pointer-events:auto}
+
+@media (max-width:1000px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;max-height:none}
+  .side ol{display:none}
+  .phases{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .loop{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .loop div:nth-child(3)::after{display:none}
+}
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:repeat(2,1fr)}
+  .intro-grid,.step-grid,.mock-row{grid-template-columns:minmax(0,1fr)}
+  .dt-line{flex-wrap:wrap}
+  .how{grid-template-columns:1fr 1fr}
+  .phases{grid-template-columns:1fr 1fr}
+  .loop{grid-template-columns:1fr 1fr}
+  .loop div::after{display:none}
+  .tab{padding:10px 12px;font-size:.9rem}
+  .card,.step{padding:16px}
+  .prompt pre{font-size:.8rem}
+}
+@media (max-width:560px){
+  .tab{min-width:0;flex:1 1 0;white-space:normal;text-align:center;font-size:.8rem;padding:9px 6px;line-height:1.2}
+  .tab .n{display:none}
+}
+@media (max-width:420px){.hero-grid,.how{grid-template-columns:1fr}}
+@media print{
+  .tabs-shell,.side,.copy-btn,.to-top,.done-toggle{display:none!important}
+  .panel{display:block!important}.layout{grid-template-columns:1fr}
+  .prompt pre{max-height:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#tabs">Skip to guide</a>
+
+<div class="topbar">
+  <div class="wrap">
+    <a class="brand" href="https://academy.ticl.in" target="_blank" rel="noopener">
+      <span class="brand-logo">T</span>
+      <span>TICL Academy<small>Student Learners Hub</small></span>
+    </a>
+    <a class="link" href="https://academy.ticl.in" target="_blank" rel="noopener">academy.ticl.in</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="pill">Beginner friendly &middot; No coding experience needed &middot; Dry-run tested on mobile and desktop</span>
+    <h1>Build Real Web Apps Using Only AI Prompts</h1>
+    <p class="lead">Copy each prompt, paste it into any AI chatbot (ChatGPT, Claude, Gemini, Copilot), save the code it gives you, and test. Step by step you will build a complete responsive website, then a Python web app, and learn how to fix errors with AI.</p>
+    <div class="hero-grid">
+      <div class="hero-card"><b>Track 1: Website</b><span>25 prompts &middot; HTML, CSS, JS, Bootstrap</span></div>
+      <div class="hero-card"><b>Track 2: Python App</b><span>16 prompts &middot; Flask + SQLite</span></div>
+      <div class="hero-card"><b>Track 3: Debugging</b><span>Screenshots + error prompts</span></div>
+      <div class="hero-card"><b>Your result</b><span>2 portfolio projects live on GitHub</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="tabs-shell" id="tabs">
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Guide sections">
+      <button class="tab" role="tab" id="tab-web" aria-controls="web" aria-selected="true" data-tab="web"><span class="n">1</span> Static Website</button>
+      <button class="tab" role="tab" id="tab-python" aria-controls="python" aria-selected="false" data-tab="python" tabindex="-1"><span class="n">2</span> Python Web App</button>
+      <button class="tab" role="tab" id="tab-debug" aria-controls="debug" aria-selected="false" data-tab="debug" tabindex="-1"><span class="n">3</span> Debugging with AI</button>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- ======================================================= TAB 1: WEB -->
+<section class="panel active" id="web" role="tabpanel" aria-labelledby="tab-web">
+ <div class="wrap layout">
+  <aside class="side" aria-label="Website steps">
+    <h4>Your progress</h4>
+    <div class="progress" data-progress="web"><div class="progress-bar"><i></i></div><small>0 of 25 steps done</small></div>
+    <div class="sec-links"><a href="#web-intro">App definition</a><a href="#web-setup">Before you start</a><a href="#web-resume">Lost the chat? Resume</a></div>
+    <h4 style="margin-top:12px">Steps</h4>
+    <ol><li><a href="#web-step-1"><span>1</span>Write the PRD (Product Requirements Document)</a></li><li><a href="#web-step-2"><span>2</span>Create the starter files</a></li><li><a href="#web-step-3"><span>3</span>Build the header and navigation bar</a></li><li><a href="#web-step-4"><span>4</span>Add the Hero section</a></li><li><a href="#web-step-5"><span>5</span>Build the footer</a></li><li><a href="#web-step-6"><span>6</span>Home: &quot;Why Choose Us&quot; section</a></li><li><a href="#web-step-7"><span>7</span>Home: Popular Courses preview</a></li><li><a href="#web-step-8"><span>8</span>Home: Animated counters and testimonials</a></li><li><a href="#web-step-9"><span>9</span>Home: Call-to-action, WhatsApp and Back-to-Top buttons</a></li><li><a href="#web-step-10"><span>10</span>About Us page</a></li><li><a href="#web-step-11"><span>11</span>Courses (Services) page with filter and search</a></li><li><a href="#web-step-12"><span>12</span>Course details popup (modal)</a></li><li><a href="#web-step-13"><span>13</span>Contact page with a validated enquiry form</a></li><li><a href="#web-step-14"><span>14</span>(Optional) Make the contact form send real emails</a></li><li><a href="#web-step-15"><span>15</span>FAQ page with accordion and live search</a></li><li><a href="#web-step-16"><span>16</span>Gallery page with filter and lightbox</a></li><li><a href="#web-step-17"><span>17</span>Privacy Policy page</a></li><li><a href="#web-step-18"><span>18</span>Terms &amp; Conditions page</a></li><li><a href="#web-step-19"><span>19</span>Refund Policy page</a></li><li><a href="#web-step-20"><span>20</span>Custom 404 (Page Not Found) page</a></li><li><a href="#web-step-21"><span>21</span>Dark mode for the whole website</a></li><li><a href="#web-step-22"><span>22</span>Polish: page loader, typography and hover effects</a></li><li><a href="#web-step-23"><span>23</span>SEO, favicon, sitemap and social sharing</a></li><li><a href="#web-step-24"><span>24</span>Quality check: links, mobile, accessibility, errors</a></li><li><a href="#web-step-25"><span>25</span>README and publish on GitHub Pages</a></li></ol>
+  </aside>
+  <div>
+    <div class="card" id="web-intro">
+      <h2>Project 1: SkillNest Computer Academy Website</h2>
+      <p><strong>Objective:</strong> Develop a complete, responsive, multi-page website only by pasting prompts into an AI chatbot. You will not write code yourself; you will learn how to <em>instruct</em> AI clearly, save files correctly, test, and fix problems.</p>
+      <div class="intro-grid">
+        <div class="box">
+          <h4>What is the app?</h4>
+          <p>A <strong>static website</strong> for a fictional computer training institute in Bhavnagar called <strong>SkillNest Computer Academy</strong>. "Static" means plain HTML, CSS and JavaScript files with no server or database, so it can be hosted free on GitHub Pages.</p>
+          <div class="chips"><span class="chip">Glassmorphism</span><span class="chip">Animated gradients</span><span class="chip">3D tilt cards</span><span class="chip">Typewriter hero</span><span class="chip">Confetti</span></div>
+          <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">Bootstrap 5.3</span><span class="chip">Bootstrap Icons</span><span class="chip">AOS animations</span><span class="chip">GitHub Pages</span></div>
+        </div>
+        <div class="box">
+          <h4>Pages you will build (10)</h4>
+          <p>Home &middot; About Us &middot; Courses (Services) &middot; Contact &middot; FAQ &middot; Gallery &middot; Privacy Policy &middot; Terms &amp; Conditions &middot; Refund Policy &middot; 404 Page</p>
+          <p class="muted" style="margin:0">Plus: responsive header and footer, dark mode, enquiry form validation, course filter and search, popups, lightbox gallery, SEO, favicon and sitemap.</p>
+        </div>
+      </div>
+      <h3>How the website will be developed</h3>
+      <div class="phases">
+        <div class="phase"><b>1. Plan</b>PRD blueprint<br><em>Step 1</em></div>
+        <div class="phase"><b>2. Foundation</b>Files, header, footer<br><em>Steps 2-5</em></div>
+        <div class="phase"><b>3. Home page</b>Hero to CTA<br><em>Steps 6-9</em></div>
+        <div class="phase"><b>4. Inner pages</b>About, Courses, Contact, FAQ, Gallery<br><em>Steps 10-16</em></div>
+        <div class="phase"><b>5. Policies</b>Privacy, Terms, Refund, 404<br><em>Steps 17-20</em></div>
+        <div class="phase"><b>6. Polish &amp; publish</b>Dark mode, SEO, QA, GitHub<br><em>Steps 21-25</em></div>
+      </div>
+      <h3>Final folder structure</h3>
+<pre class="tree">skillnest-website/
+├── index.html            ← Home
+├── about.html
+├── courses.html          ← Services
+├── contact.html
+├── faq.html
+├── gallery.html
+├── privacy-policy.html
+├── terms.html
+├── refund-policy.html
+├── 404.html
+├── sitemap.xml
+├── robots.txt
+├── README.md
+├── css/
+│   └── style.css         ← all styles
+├── js/
+│   ├── components.js     ← shared header + footer (edit once, used everywhere)
+│   ├── main.js           ← shared scripts
+│   ├── courses.js
+│   ├── contact.js
+│   ├── faq.js
+│   └── gallery.js
+└── images/
+    └── favicon.svg</pre>
+      <div class="note blue"><strong>Why a shared components.js?</strong> Every page needs the same header and footer. Instead of copying them into 10 files, JavaScript inserts them into each page. Change the menu once and every page updates.</div>
+    </div>
+
+    <div class="card" id="web-setup">
+      <h2>Before you start (10 minutes)</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>What you need</th><th>How</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>VS Code (free code editor)</td><td>Download from <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a> and install.</td></tr>
+          <tr><td>2</td><td>Live Server extension</td><td>In VS Code press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>, search <strong>Live Server</strong> (by Ritwick Dey), click Install.</td></tr>
+          <tr><td>3</td><td>Project folder</td><td>Create a folder named <code>skillnest-website</code> on your Desktop. In VS Code: File &gt; Open Folder &gt; select it.</td></tr>
+          <tr><td>4</td><td>An AI chatbot</td><td>Any one: ChatGPT, Claude, Gemini or Microsoft Copilot. Free versions work. Sign in so your chat is saved.</td></tr>
+          <tr><td>5</td><td>A browser</td><td>Google Chrome or Microsoft Edge (for DevTools with <kbd>F12</kbd>).</td></tr>
+        </tbody>
+      </table></div>
+      <h3>How to use each step</h3>
+      <div class="how">
+        <div><b>1</b>Click <strong>Copy</strong> on the prompt</div>
+        <div><b>2</b>Paste in the <strong>same AI chat</strong> and send</div>
+        <div><b>3</b>Create/replace the files the AI names</div>
+        <div><b>4</b>Save (<kbd>Ctrl</kbd>+<kbd>S</kbd>) and refresh the browser</div>
+        <div><b>5</b>Check it works, tick <strong>Done</strong></div>
+      </div>
+      <h3>Which tool should I use?</h3>
+      <div class="intro-grid">
+        <div class="box"><h4>Recommended for beginners: AI chat + VS Code</h4><p style="margin:0">ChatGPT, Claude or Gemini in the browser, and VS Code + Live Server on your laptop. Paste one prompt, save the files yourself, test. Slower, but you <strong>see and understand every file</strong>. This guide is written for this method.</p></div>
+        <div class="box"><h4>Faster: AI code editors</h4><p style="margin:0">Cursor, Google Antigravity, VS Code Copilot (Agent mode) or OpenAI Codex. Open the project folder, paste the same prompts into the editor's AI chat, and <strong>review and accept</strong> the changes. The AI creates and edits files for you, so there are fewer copy-paste mistakes. Great for the second project.</p></div>
+      </div>
+      <div class="note"><strong>Golden rule:</strong> do all 25 steps in <strong>one single chat</strong>, so the AI remembers your PRD and code. If the AI stops in the middle of a long answer, type <code>continue</code>. If something breaks, open the <a href="#debug" data-goto="debug">Debugging tab</a>.</div>
+      <div class="note blue"><strong>How to save code in VS Code:</strong> New file: click the "New File" icon in the Explorer, type the exact name (for example <code>css/style.css</code> creates the folder too), paste, save. <strong>"Replace all code"</strong>: click in the file, <kbd>Ctrl</kbd>+<kbd>A</kbd>, then paste. <strong>"Add at the end"</strong>: click in the file, <kbd>Ctrl</kbd>+<kbd>End</kbd>, press Enter, then paste.</div>
+    </div>
+
+    
+<article class="step" id="web-step-1" data-step="web-step-1">
+  <header class="step-head">
+    <span class="step-num">Step 1</span>
+    <h3>Write the PRD (Product Requirements Document)</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-1"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Before any code, we ask the AI to plan the whole website. A PRD is the blueprint: pages, colours, fonts, folder structure and rules. Because the AI remembers it for the rest of the chat, every later step stays consistent.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 1 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 1 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Act as a senior front-end developer and a patient teacher. I am a beginner student. We will build a complete static website step by step in THIS SAME CHAT. Do NOT write any code yet. First write a clear Product Requirements Document (PRD) for the website and remember it for all next steps.
+
+PROJECT: SkillNest Computer Academy - website for a computer training institute.
+GOAL: Show the institute&#x27;s courses, build trust, and collect admission enquiries.
+TARGET USERS: Students (15-30 years), parents, and working professionals.
+
+TECH STACK (use ONLY these):
+- HTML5, CSS3, vanilla JavaScript
+- Bootstrap 5.3 (CDN), Bootstrap Icons (CDN), Google Font &quot;Poppins&quot;, AOS animation library (CDN)
+- No npm, no build tools, no React/Vue. It must work by opening index.html with VS Code Live Server and on GitHub Pages.
+
+PAGES:
+index.html (Home), about.html, courses.html (our services), contact.html, faq.html, gallery.html, privacy-policy.html, terms.html, refund-policy.html, 404.html
+
+FOLDER STRUCTURE:
+skillnest-website/
+  index.html and all other .html pages
+  css/style.css
+  js/components.js   (shared header + footer for every page)
+  js/main.js         (shared JavaScript)
+  js/courses.js, js/contact.js, js/faq.js, js/gallery.js (page-specific)
+  images/
+
+SHARED HEADER AND FOOTER: js/components.js injects them into &lt;div id=&quot;site-header&quot;&gt;&lt;/div&gt; and &lt;div id=&quot;site-footer&quot;&gt;&lt;/div&gt; on every page, so we edit them in only one place.
+
+BRAND / DESIGN SYSTEM (premium, colourful and interactive, like modern top websites such as Stripe, Apple and Linear, but our own design):
+- Name: SkillNest Computer Academy | Tagline: &quot;Learn Today, Lead Tomorrow&quot;
+- Colours: primary #4F46E5 (indigo), violet #7C3AED, pink #EC4899, cyan #06B6D4, amber #F59E0B, dark #0B1020, light #F8FAFC
+- Signature gradient: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899)
+- Font: Poppins | Large bold headings | Rounded corners 16px | Soft coloured shadows
+- Style: animated gradient blobs in backgrounds, glassmorphism cards (semi-transparent + backdrop blur), gradient text on key headings, glowing buttons, smooth micro-interactions (hover lift, 3D tilt, ripple), scroll-reveal animations, a scroll progress bar, light and dark mode
+- Effects must be smooth (60fps), must not block content, and must turn off for users with &quot;prefers-reduced-motion&quot;
+
+BUSINESS DETAILS (sample data):
+Address: 12 Knowledge Park, Waghawadi Road, Bhavnagar, Gujarat 364001
+Phone: +91 98765 43210 | Email: info@skillnest.example | Hours: Mon-Sat 8:00 AM - 8:00 PM
+
+COURSES (8): Basic Computer &amp; MS Office, Tally Prime with GST, Web Design (HTML CSS JS), Python Programming, Graphic Design (Canva &amp; Photoshop), Digital Marketing, AI Tools for Everyone, Spoken English &amp; Communication. Give each a category, duration, level and fee in INR.
+
+IMAGES: use placeholder images like https://picsum.photos/seed/WORD/800/600 and https://i.pravatar.cc/150?img=NUMBER for people.
+
+RULES FOR EVERY NEXT STEP:
+1. Write the exact file path as a heading above every code block.
+2. HTML and JS files: always give the COMPLETE file (never &quot;rest of the code stays the same&quot;).
+3. CSS: give only the NEW CSS to ADD at the END of css/style.css, starting with a comment like /* ===== Step N: Name ===== */.
+4. Shared JavaScript in main.js: give each new feature as a separate block to ADD at the end, wrapped in its own document.addEventListener(&#x27;DOMContentLoaded&#x27;, ...) and safe if the element does not exist on a page.
+5. Mobile-first and responsive (test 320px, 375px, 768px, 1200px): no sideways scrolling on phones; use row gutters g-4 (use g-lg-5 only for large screens); accessible; comments for beginners.
+6. After the code, explain in 3-5 simple lines and tell me how to test.
+
+Now write the PRD with these sections: Overview, Goals, Target Users, Pages and Sections (list sections of each page), Design System, Tech Stack, Folder Structure, Non-functional Requirements, Success Criteria. End with: &quot;PRD ready. Say Step 2 to continue.&quot;</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Read the PRD. If you want a different institute name, colour or city, tell the AI now: &quot;Change the name to ... and update the PRD&quot;.</li><li>Copy the full PRD reply and save it in a Notepad file named PRD.txt in your project folder. You will need it if the chat is lost.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The AI shows a structured PRD and ends with &quot;PRD ready&quot;. No code yet.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-2" data-step="web-step-2">
+  <header class="step-head">
+    <span class="step-num">Step 2</span>
+    <h3>Create the starter files</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-2"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We create the foundation: a boilerplate index.html with all CDN links, the main stylesheet with brand variables, and empty JavaScript files.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 2 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 2 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 2: Create the starting files.
+
+1. css/style.css - CSS variables for all brand colours, --gradient (the signature gradient), --radius: 16px, --shadow and --glow (coloured shadow); [data-theme=&quot;dark&quot;] overrides for --bg, --text, --card, --border (dark mode comes later, prepare variables now); body font Poppins using var(--bg) and var(--text); base typography; utility classes: .section-padding (90px top/bottom, 60px on mobile), .section-title (centered, with a small gradient underline), .gradient-text (gradient clipped to text), .glass (semi-transparent background + backdrop-filter blur + thin border), .btn-brand (gradient background, glow on hover, lift on hover), .btn-outline-brand; keyframes &quot;float&quot; and &quot;gradientMove&quot;; smooth scrolling; html, body { max-width: 100%; overflow-x: clip; } so slide-in animations never cause sideways scrolling on phones; a @media (prefers-reduced-motion: reduce) rule that disables animations.
+2. js/components.js - two functions renderHeader() and renderFooter() that, for now, put simple placeholder text inside #site-header and #site-footer. Call both on DOMContentLoaded.
+3. js/main.js - one DOMContentLoaded block that logs &quot;SkillNest site loaded&quot; to the console.
+4. index.html - full HTML5 boilerplate: meta charset, viewport, title &quot;SkillNest Computer Academy | Learn Today, Lead Tomorrow&quot;, meta description. In &lt;head&gt;: FIRST a tiny inline &lt;script&gt; that reads localStorage &quot;theme&quot; inside try/catch and, if it is &quot;dark&quot;, sets data-theme=&quot;dark&quot; and data-bs-theme=&quot;dark&quot; on &lt;html&gt; (this prevents a white flash in dark mode later). Then link in this order: Google Font Poppins, Bootstrap 5.3 CSS, Bootstrap Icons, AOS CSS, css/style.css. In &lt;body&gt;: &lt;div id=&quot;site-header&quot;&gt;&lt;/div&gt;, &lt;main id=&quot;main-content&quot;&gt; with an &lt;h1 class=&quot;gradient-text&quot;&gt;Coming soon&lt;/h1&gt;, &lt;div id=&quot;site-footer&quot;&gt;&lt;/div&gt;. Before &lt;/body&gt;: Bootstrap bundle JS, AOS JS, js/components.js, js/main.js.
+Every future page will copy this same &lt;head&gt; and script order.
+
+Use the latest stable jsDelivr CDN links. Give each file&#x27;s complete code with its path as a heading. Then tell me how to open index.html with the VS Code &quot;Live Server&quot; extension and what I should see.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create the folders css, js and images inside skillnest-website.</li><li>Create each file with the exact name and paste its code. Save with Ctrl+S.</li><li>Right-click index.html in VS Code and choose &quot;Open with Live Server&quot;.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The browser shows &quot;Coming soon&quot; in the Poppins font. Press F12, open Console: you see &quot;SkillNest site loaded&quot;.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-3" data-step="web-step-3">
+  <header class="step-head">
+    <span class="step-num">Step 3</span>
+    <h3>Build the header and navigation bar</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-3"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A responsive, sticky navbar that turns into a hamburger menu on phones and highlights the current page. It lives in components.js so all pages share it.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 3 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 3 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 3: Build the shared header in js/components.js (give the complete updated file).
+
+Requirements:
+- A thin top info bar with the signature gradient background (hidden below 768px): phone, email and working hours with Bootstrap Icons, social icons on the right.
+- Main navbar using the Bootstrap 5 navbar, fixed to the top with a glassmorphism look (semi-transparent + backdrop blur): logo = the bi-mortarboard-fill icon inside a small gradient square + &quot;SkillNest&quot; text; links Home, About, Courses, Gallery, FAQ, Contact; an &quot;Enroll Now&quot; button (.btn-brand) linking to contact.html.
+- When the page is scrolled more than 50px, add a class &quot;scrolled&quot;: the top bar hides, the navbar gets more solid with a shadow.
+- A 3px scroll progress bar with the signature gradient at the very top of the page that grows as the user scrolls.
+- Links have an animated gradient underline on hover; the active link is shown with gradient text.
+- On phones (even 320px wide) the logo, the theme button space and the hamburger must fit on ONE line: hide the top &quot;Enroll Now&quot; button below 576px and show a full-width &quot;Enroll Now&quot; button inside the mobile menu instead.
+- Collapses into a hamburger menu below 992px. On mobile the opened menu is a solid card-style panel with large tap-friendly links, the hamburger icon animates into an X, and the menu closes after a link is clicked.
+- Automatically highlight the active page link by comparing each link&#x27;s href with the current file name (treat &quot;&quot; and &quot;/&quot; as index.html, works on GitHub Pages sub-folders too).
+- Add padding-top to &lt;body&gt; equal to the header height (use a CSS variable --header-h) so content is not hidden under the fixed header. Dark hero/banner sections can use a negative margin-top of the same value so they start behind the glass header.
+- Keep renderFooter() as a placeholder for now.
+
+Also give the CSS to ADD at the end of css/style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace ALL the code in js/components.js with the new code.</li><li>Open css/style.css, press Ctrl+End to go to the end, and paste the new CSS.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The navbar shows on top. Make the browser narrow (or press F12 and click the phone icon): the hamburger menu opens and closes.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-4" data-step="web-step-4">
+  <header class="step-head">
+    <span class="step-num">Step 4</span>
+    <h3>Add the Hero section</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-4"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> The hero is the first big banner visitors see. It holds the main headline, buttons and an image.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 4 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 4 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 4: Add a Hero section to index.html. Give the complete updated index.html (replace the &quot;Coming soon&quot; heading).
+
+Hero (like a premium tech landing page): min-height 92vh, dark background (#0B1020) with 3 large blurred animated gradient blobs (indigo, pink, cyan) slowly floating behind the content, plus a faint dotted grid pattern. Two columns on desktop, stacked on mobile.
+Left: a glowing glass badge &quot;Admissions Open 2026&quot; with a pulsing dot; a big bold heading &quot;Learn &lt;rotating word&gt; Today, Lead Tomorrow&quot; where the rotating word has a typewriter effect cycling through &quot;Python&quot;, &quot;Web Design&quot;, &quot;AI Tools&quot;, &quot;Tally&quot;, &quot;Digital Marketing&quot; in gradient text; a short paragraph; two buttons &quot;Explore Courses&quot; (.btn-brand, courses.html) and &quot;Book Free Demo&quot; (glass outline, contact.html); a row of 3 mini stats (5000+ Students, 25+ Courses, 10+ Years) and a row of 5 overlapping student avatars (pravatar) with &quot;Rated 4.9/5 by students&quot;.
+Right: an image from https://picsum.photos/seed/classroom/800/600 with rounded corners and a gradient glow border, plus 2 floating glass cards (&quot;Live Classes Every Day&quot; and &quot;Certificate on Completion&quot;) that bob up and down with the float animation. On desktop the image and cards move slightly with the mouse (parallax).
+At the bottom: an animated &quot;scroll down&quot; mouse icon.
+Add data-aos animations (fade-right on the left, fade-left on the right).
+
+Give the CSS to ADD at the end of style.css. Add new blocks at the end of js/main.js for: AOS.init({ once: true, duration: 800 }) only if AOS is loaded; the typewriter effect; and the mouse parallax (desktop only, skip if prefers-reduced-motion). Each block must do nothing on pages that do not have these elements.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in index.html.</li><li>Add the CSS at the end of style.css.</li><li>Add the new JavaScript block at the end of main.js.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>A colourful hero appears with heading, buttons and image. Text and image slide in. On mobile they stack.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-5" data-step="web-step-5">
+  <header class="step-head">
+    <span class="step-num">Step 5</span>
+    <h3>Build the footer</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-5"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A professional four-column footer with links, contact details and a newsletter box, shared by all pages.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 5 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 5 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 5: Build the shared footer in js/components.js. Give the complete updated file and keep the header exactly as it is.
+
+Footer: very dark background (#0B1020) with a soft gradient glow at the top edge and an SVG wave shape above it; 4 columns on desktop, 2 on tablet, 1 on mobile; links slide right slightly on hover; social buttons fill with the gradient and lift on hover:
+1. Logo + short about text + round social buttons (Facebook, Instagram, YouTube, LinkedIn, WhatsApp).
+2. Quick Links: Home, About, Courses, Gallery, FAQ, Contact.
+3. Legal: Privacy Policy, Terms &amp; Conditions, Refund Policy.
+4. Contact: address, phone, email, hours with icons.
+Above the columns: a glass newsletter card with a gradient border, an email input and a Subscribe button. On submit, check the email format and show a Bootstrap alert &quot;Thank you for subscribing!&quot; (no backend).
+Bottom bar: &quot;(c) CURRENT_YEAR SkillNest Computer Academy. All rights reserved.&quot; (year set automatically by JavaScript) and &quot;Made by Your Name - TICL Academy Student&quot;.
+
+Give the CSS to ADD at the end of style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in js/components.js.</li><li>Add the CSS at the end of style.css.</li><li>Change &quot;Your Name&quot; to your real name.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Scroll down: a dark footer with 4 columns appears. Typing a wrong email in Subscribe shows an error; a correct one shows the thank-you alert.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-6" data-step="web-step-6">
+  <header class="step-head">
+    <span class="step-num">Step 6</span>
+    <h3>Home: &quot;Why Choose Us&quot; section</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-6"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Six feature cards that explain why students should join. You learn CSS grid layouts and hover effects.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 6 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 6 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 6: Add a &quot;Why Choose SkillNest&quot; section to index.html below the hero. Give the complete updated index.html.
+
+6 feature cards in a responsive grid (3 per row on desktop, 2 on tablet, 1 on mobile): Expert Trainers, Practical Projects, Certificate on Completion, Flexible Batches, Placement Assistance, Small Batch Size.
+Each card: a Bootstrap Icon inside a rounded square with its own colourful gradient (indigo, pink, cyan, amber, green, violet), a title, a 2-line description. On hover: the card lifts, an animated gradient border glows around it, and the icon rotates slightly. On desktop the cards also have a 3D tilt effect that follows the mouse (class .tilt).
+Centered section title with &quot;Why Choose&quot; in normal text and &quot;SkillNest&quot; in gradient text, and a subtitle. Add data-aos=&quot;fade-up&quot; with increasing data-aos-delay on the cards.
+
+Give the CSS to ADD at the end of style.css and the 3D tilt as a new block to ADD at the end of js/main.js (works for any element with class .tilt, disabled on touch devices and for prefers-reduced-motion).</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in index.html.</li><li>Add the CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Six cards appear below the hero and rise slightly when you hover over them.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-7" data-step="web-step-7">
+  <header class="step-head">
+    <span class="step-num">Step 7</span>
+    <h3>Home: Popular Courses preview</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-7"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Four course cards on the home page that link to the full Courses page.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 7 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 7 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 7: Add a &quot;Popular Courses&quot; section to index.html after &quot;Why Choose SkillNest&quot;. Give the complete updated index.html.
+
+Show 4 course cards from the PRD (light section background with a faint gradient blob). Each card: image (picsum with a seed based on the course) that zooms on hover with a dark gradient overlay, a glass category badge on the image, a &quot;Bestseller&quot; or &quot;New&quot; ribbon on two cards, course name, duration with a clock icon, level, fee in INR in gradient text, star rating, and a &quot;View Details&quot; button linking to courses.html. Cards lift with a coloured shadow on hover and use the .tilt class.
+All cards must be equal height. Below the cards, a centered &quot;View All Courses&quot; button with an arrow that slides right on hover.
+
+Give the CSS to ADD at the end of style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in index.html.</li><li>Add the CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Four equal-height course cards appear with images, fee and buttons.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-8" data-step="web-step-8">
+  <header class="step-head">
+    <span class="step-num">Step 8</span>
+    <h3>Home: Animated counters and testimonials</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-8"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Numbers that count up when you scroll to them, and a sliding testimonial carousel. You learn IntersectionObserver and Bootstrap Carousel.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 8 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 8 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 8: Add two sections to index.html after Popular Courses. Give the complete updated index.html.
+
+A) A stats band with an animated moving gradient background (gradientMove keyframes): 4 glass counter cards with icons (5000+ Students Trained, 25+ Courses, 15 Expert Trainers, 95% Satisfaction). The numbers count up from 0 with easing when the section scrolls into view, only once, using IntersectionObserver.
+B) Below it, an infinite auto-scrolling &quot;skills marquee&quot; strip (pure CSS, pauses on hover) showing pill badges with icons: HTML, CSS, JavaScript, Python, Excel, Tally, Canva, Photoshop, ChatGPT, SEO.
+C) Testimonials using Bootstrap Carousel on a dark section with gradient blobs: 4 glass review cards with photo (https://i.pravatar.cc/150?img=NUMBER) inside a gradient ring, name, course, star rating, a large faded quote icon and the quote. Auto-slide every 5 seconds, with indicators and custom round arrow buttons.
+
+Give the CSS to ADD at the end of style.css and the counter JavaScript as a new block to ADD at the end of js/main.js (it must do nothing on pages without counters).</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in index.html.</li><li>Add the CSS at the end of style.css.</li><li>Add the counter block at the end of main.js.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>When you scroll to the stats band, numbers count up. Testimonials slide automatically.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-9" data-step="web-step-9">
+  <header class="step-head">
+    <span class="step-num">Step 9</span>
+    <h3>Home: Call-to-action, WhatsApp and Back-to-Top buttons</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-9"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We finish the Home page with a strong call-to-action banner, plus floating buttons that appear on every page.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 9 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 9 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 9: Finish the Home page.
+
+A) In index.html add a Call-To-Action banner just before the footer: a large rounded card with an animated moving signature gradient, floating decorative circles, heading &quot;Ready to start your tech career?&quot;, a short line of text, and buttons &quot;Enroll Now&quot; (white button, contact.html) and &quot;Call Us&quot; (glass button, tel: link). Give the complete updated index.html.
+B) Add a floating WhatsApp button (bottom-left, green, with a soft pulsing ring animation, opens https://wa.me/919876543210 with a pre-filled message) and a Back-to-Top button (bottom-right, gradient, with a circular ring that shows scroll progress) that appears after scrolling 300px and smoothly scrolls to the top.
+C) A ripple effect: when any .btn is clicked, a circle ripples out from the click point (add this JS in components.js too so it works on every page). Put the HTML and JavaScript for both buttons inside js/components.js so they appear on EVERY page. Give the complete updated components.js.
+
+Give the CSS to ADD at the end of style.css. Make sure both buttons have aria-labels.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in index.html and js/components.js.</li><li>Add the CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>A CTA banner shows above the footer. Scroll down: the Back-to-Top button appears and works. The WhatsApp button opens WhatsApp.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-10" data-step="web-step-10">
+  <header class="step-head">
+    <span class="step-num">Step 10</span>
+    <h3>About Us page</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-10"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Our first inner page. It reuses the same head, header and footer, and introduces a reusable page banner.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 10 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 10 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 10: Create about.html (complete file) using the same &lt;head&gt;, header/footer placeholders and script tags as index.html.
+
+Sections:
+1. Page banner with a reusable class .page-banner: dark background with animated gradient blobs (same style as the home hero but shorter, about 40vh), big title &quot;About Us&quot; with gradient text, and a glass breadcrumb pill Home / About. This banner style will be reused on ALL inner pages.
+2. Our Story: image + text in two columns (founded in 2015 in Bhavnagar).
+3. Mission and Vision cards.
+4. A vertical timeline of milestones (2015, 2018, 2020, 2023, 2026) with a gradient line, glowing dots and cards alternating left/right on desktop (single column on mobile), each animated in with data-aos.
+5. Meet Our Trainers: 4 trainer cards with photo (pravatar) inside a gradient ring, name, subject, and social icons that slide up on hover; cards use the .tilt class.
+6. A small call-to-action strip.
+
+Give the CSS to ADD at the end of style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create a new file about.html and paste the code.</li><li>Add the CSS at the end of style.css.</li><li>Click &quot;About&quot; in your navbar.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>About page opens with the same header and footer, and the &quot;About&quot; link is highlighted in the navbar.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-11" data-step="web-step-11">
+  <header class="step-head">
+    <span class="step-num">Step 11</span>
+    <h3>Courses (Services) page with filter and search</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-11"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> All courses are stored once in a JavaScript array and displayed automatically. Students can filter by category and search by name.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 11 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 11 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 11: Create courses.html (complete file). This is our Services page.
+
+- .page-banner &quot;Our Courses&quot; with breadcrumb.
+- Filter buttons styled as pills; the active pill has the gradient background with a smooth transition: All, Office &amp; Accounts, Programming, Design, Marketing, Soft Skills.
+- A large glass search box with a search icon that filters courses by name while typing. Show &quot;Showing X courses&quot; text.
+- When the filter changes, cards fade/scale in with a short staggered animation.
+- All 8 courses from the PRD shown as cards. Store the course data in a JavaScript array in a NEW file js/courses.js and render the cards with JavaScript so the data lives in one place. Each course object: id, name, category, duration, level, fee, image, shortDescription.
+- Each card: image, category, name, duration, level, fee, short description, a &quot;Details&quot; button and an &quot;Enquire&quot; button (contact.html?course=COURSE_NAME, URL-encoded).
+- Show &quot;No courses found&quot; when the filter and search give no results.
+- Add &lt;script src=&quot;js/courses.js&quot;&gt;&lt;/script&gt; on this page only, after components.js and before main.js.
+
+Give courses.html and js/courses.js as complete files, and the CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create courses.html and js/courses.js.</li><li>Add the CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>All 8 courses appear. Clicking &quot;Programming&quot; shows only programming courses. Typing &quot;python&quot; in search shows only Python.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-12" data-step="web-step-12">
+  <header class="step-head">
+    <span class="step-num">Step 12</span>
+    <h3>Course details popup (modal)</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-12"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Clicking &quot;Details&quot; opens a popup with the full syllabus. You learn Bootstrap modals and passing data with URL parameters.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 12 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 12 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 12: On courses.html, clicking &quot;Details&quot; must open a Bootstrap Modal with the full details of that course: image, full description, a syllabus list (add a &quot;syllabus&quot; array of 5-6 topics and a &quot;description&quot; to every course in js/courses.js), duration, fee, batch timings (Morning / Afternoon / Evening), and an &quot;Enquire Now&quot; button linking to contact.html?course=COURSE_NAME (URL-encoded).
+
+Use one modal in the HTML and fill its content with JavaScript. Give the complete updated js/courses.js and courses.html, and any CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in courses.html and js/courses.js.</li><li>Add any CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Click &quot;Details&quot; on any course: a popup shows that course&#x27;s syllabus. Close it with X or Esc.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-13" data-step="web-step-13">
+  <header class="step-head">
+    <span class="step-num">Step 13</span>
+    <h3>Contact page with a validated enquiry form</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-13"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> An enquiry form with real-time validation, a Google Map and contact cards. You learn form validation in JavaScript.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 13 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 13 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 13: Create contact.html (complete file).
+
+- .page-banner &quot;Contact Us&quot;.
+- 3 info cards: Visit Us, Call Us, Email Us.
+- Two columns. Left: an enquiry form with Full Name, Email, Phone (10 digits), Course dropdown (the 8 courses), Preferred Batch radio buttons (Morning / Afternoon / Evening), Message, and an &quot;I agree to the Privacy Policy&quot; checkbox with a link to privacy-policy.html. Right: a Google Maps iframe embed of Bhavnagar, Gujarat (no API key needed) and a working-hours table.
+- If the URL has ?course=..., pre-select that course in the dropdown.
+- Use Bootstrap validation styles with custom JavaScript validation and show a red message under each invalid field. Style inputs with floating labels and a glowing gradient focus ring; the form sits inside a glass card. On success: launch a confetti celebration using the canvas-confetti library from jsDelivr (only on this page, and skip it safely if the library did not load), show a green success card with the student&#x27;s name, reset the form, and save the enquiry in localStorage (wrapped in try/catch). No backend.
+
+Put this page&#x27;s JavaScript in a NEW file js/contact.js and include it only on contact.html. Give the CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create contact.html and js/contact.js.</li><li>Add the CSS at the end of style.css.</li><li>From the Courses page, click &quot;Enquire&quot; on a course: it should open Contact with that course selected.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Submitting an empty form shows red messages. Filling it correctly shows a green success message.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-14" data-step="web-step-14">
+  <header class="step-head">
+    <span class="step-num">Step 14</span>
+    <h3>(Optional) Make the contact form send real emails</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-14"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A static website has no server, but free services like Formspree can email you the form data. Skip this step if you only want a demo.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 14 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 14 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 14: I want the contact form to really send me emails without a backend.
+
+1. Explain step by step how to create a free Formspree form at formspree.io and find my form endpoint URL.
+2. Give me the complete updated js/contact.js that, after validation, sends the form data with fetch() to &quot;https://formspree.io/f/YOUR_FORM_ID&quot; with the header Accept: application/json, shows a loading spinner on the submit button while sending, and shows a success or error alert.
+3. If YOUR_FORM_ID has not been replaced yet, do not send; show a friendly message &quot;Demo mode: form endpoint not configured&quot; instead.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in js/contact.js.</li><li>Create your Formspree form and replace YOUR_FORM_ID with your real id.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Submitting the form shows a spinner and then success. You receive the email (after confirming your Formspree account).</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-15" data-step="web-step-15">
+  <header class="step-head">
+    <span class="step-num">Step 15</span>
+    <h3>FAQ page with accordion and live search</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-15"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Frequently asked questions in collapsible panels, grouped by category, with a search box.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 15 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 15 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 15: Create faq.html (complete file).
+
+- .page-banner &quot;Frequently Asked Questions&quot;.
+- Category pills: All, Admission, Courses, Fees &amp; Payment, Certificates, Online Classes.
+- At least 15 questions and answers using the Bootstrap Accordion, grouped by category.
+- A live search box that hides questions that do not match the typed text and highlights the matching words. Show &quot;No matching questions&quot; when nothing matches.
+- A &quot;Still have questions?&quot; box with a Contact Us button.
+
+Put the JavaScript in a NEW file js/faq.js (include it only on this page). Give the CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create faq.html and js/faq.js.</li><li>Add the CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Questions open and close. Typing &quot;fee&quot; in search shows only fee-related questions with the word highlighted.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-16" data-step="web-step-16">
+  <header class="step-head">
+    <span class="step-num">Step 16</span>
+    <h3>Gallery page with filter and lightbox</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-16"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A photo gallery with category filters and a full-screen viewer with Next/Previous buttons and keyboard arrows.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 16 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 16 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 16: Create gallery.html (complete file).
+
+- .page-banner &quot;Gallery&quot;.
+- Filter buttons: All, Classroom, Events, Workshops, Certificates.
+- 12 images (picsum, different seeds, 800x600) in a responsive grid with hover zoom and a caption overlay. Use loading=&quot;lazy&quot; and meaningful alt text.
+- Clicking an image opens a lightbox (Bootstrap modal) showing the large image and caption, with Previous / Next buttons, keyboard arrow-key support, and Esc to close. Previous/Next must only move through the currently filtered images.
+
+Put the JavaScript in a NEW file js/gallery.js (include it only on this page). Give the CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create gallery.html and js/gallery.js.</li><li>Add the CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Filters work. Clicking a photo opens it large; arrow keys move to the next photo.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-17" data-step="web-step-17">
+  <header class="step-head">
+    <span class="step-num">Step 17</span>
+    <h3>Privacy Policy page</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-17"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Every real website needs legal pages. We create a reusable, readable policy layout with a table of contents.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 17 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 17 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 17: Create privacy-policy.html (complete file).
+
+- .page-banner &quot;Privacy Policy&quot; and a &quot;Last updated&quot; date.
+- A sticky table of contents on the left on desktop (on top on mobile) that links to each section.
+- Well-written sections suitable for an Indian training institute website: Introduction, Information We Collect, How We Use Information, Cookies, Sharing of Information, Data Security, Your Rights, Children&#x27;s Privacy, Changes to this Policy, Contact Us.
+- A notice box at the top: &quot;This is a sample policy for learning purposes. Get it reviewed by a legal expert before real use.&quot;
+- Create a reusable .policy-content style (comfortable reading width, line-height, heading spacing) for all policy pages.
+
+Give the CSS to ADD at the end of style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create privacy-policy.html.</li><li>Add the CSS at the end of style.css.</li><li>Open it from the footer &quot;Privacy Policy&quot; link.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The policy page opens from the footer. Clicking a table-of-contents item jumps to that section.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-18" data-step="web-step-18">
+  <header class="step-head">
+    <span class="step-num">Step 18</span>
+    <h3>Terms &amp; Conditions page</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-18"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We reuse the policy layout, so this step is quick.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 18 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 18 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 18: Create terms.html (complete file) using the SAME layout, table of contents and .policy-content style as privacy-policy.html.
+
+Sections: Acceptance of Terms, Admission &amp; Enrollment, Fees &amp; Payments, Attendance &amp; Conduct, Intellectual Property (course material), Certificates, Online Classes, Limitation of Liability, Changes to Terms, Governing Law (courts of Bhavnagar, Gujarat), Contact Us.
+Keep the same &quot;sample for learning purposes&quot; notice and a &quot;Last updated&quot; date.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create terms.html.</li><li>Open it from the footer link.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Terms page looks exactly like the Privacy page layout, with its own content.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-19" data-step="web-step-19">
+  <header class="step-head">
+    <span class="step-num">Step 19</span>
+    <h3>Refund Policy page</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-19"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> The last legal page, with a small visual timeline of the refund process.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 19 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 19 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 19: Create refund-policy.html (complete file) with the SAME policy layout.
+
+Sections: Overview, Eligibility for Refund (for example: full refund within 7 days of admission if fewer than 2 classes attended), Non-refundable Cases, Batch Transfer Option, How to Request a Refund, Processing Time (7-10 working days), Contact Us.
+Add a simple 3-step refund timeline graphic (Request -&gt; Review -&gt; Refund) using Bootstrap Icons, responsive on mobile.
+Keep the &quot;sample for learning purposes&quot; notice. Give any CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create refund-policy.html.</li><li>Add any CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Refund page opens from the footer and shows the 3-step timeline.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-20" data-step="web-step-20">
+  <header class="step-head">
+    <span class="step-num">Step 20</span>
+    <h3>Custom 404 (Page Not Found) page</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-20"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> When someone opens a wrong link, GitHub Pages automatically shows your 404.html instead of an ugly error.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 20 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 20 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 20: Create 404.html (complete file) with the same header and footer.
+
+Design: a large animated &quot;404&quot; in the primary colour, a friendly message (&quot;Oops! This page went for a coffee break.&quot;), a search box that redirects to courses.html, and buttons &quot;Go Home&quot; and &quot;Contact Us&quot;.
+Note: GitHub Pages uses 404.html automatically for missing pages. Give the CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create 404.html.</li><li>Add the CSS at the end of style.css.</li><li>Test by opening a wrong address like /abc.html in Live Server.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The 404 page shows with the animated number and working buttons.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-21" data-step="web-step-21">
+  <header class="step-head">
+    <span class="step-num">Step 21</span>
+    <h3>Dark mode for the whole website</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-21"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A moon/sun button switches between light and dark themes and remembers the choice. You learn CSS variables and localStorage.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 21 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 21 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 21: Add a Dark Mode toggle to the whole website.
+
+- Add a moon/sun icon button in the navbar (update js/components.js and give the complete file).
+- Use the data-theme=&quot;dark&quot; attribute on &lt;html&gt; and the CSS variables we prepared so every section, card, form, modal, accordion, table and the footer look good in dark mode (deep navy backgrounds, glowing gradient accents). Also set Bootstrap&#x27;s data-bs-theme=&quot;dark&quot; at the same time.
+- Animate the icon (rotate) when switching, and make the colour change a smooth transition.
+- Remember the choice in localStorage key &quot;theme&quot; (wrapped in try/catch) and follow the system preference (prefers-color-scheme) the first time. The inline &lt;head&gt; script from Step 2 already applies the saved theme early.
+
+Give the complete components.js and the CSS to ADD at the end of style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in js/components.js.</li><li>Add the CSS at the end of style.css.</li><li>Click the moon icon on every page to check colours.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The whole site switches to dark colours. Reload the page: it stays dark.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-22" data-step="web-step-22">
+  <header class="step-head">
+    <span class="step-num">Step 22</span>
+    <h3>Polish: page loader, typography and hover effects</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-22"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Small details make a website look professional: a loading screen, headings that scale on phones, and consistent spacing.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 22 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 22 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 22: Polish the look and feel across all pages.
+
+- Add a page loader (the SkillNest logo with a spinning gradient ring) that fades out when the page has loaded. Add it inside js/components.js so it works on every page, and make sure it is removed even if an image fails to load (add a 3-second safety timeout). Give the complete components.js.
+- Use clamp() so all headings scale nicely on mobile.
+- Add consistent subtle hover effects for buttons, cards and links, consistent section spacing, and a visible focus outline for keyboard users.
+- Add a &quot;prefers-reduced-motion&quot; rule that turns off animations for users who prefer less motion.
+
+Give the CSS to ADD at the end of style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace all code in js/components.js.</li><li>Add the CSS at the end of style.css.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>A short loader appears and fades out on every page. Headings look good on phone width.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-23" data-step="web-step-23">
+  <header class="step-head">
+    <span class="step-num">Step 23</span>
+    <h3>SEO, favicon, sitemap and social sharing</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-23"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We make the website easy to find on Google and look good when shared on WhatsApp or social media.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 23 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 23 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 23: Make the website SEO-ready and shareable.
+
+1. For EACH page (index, about, courses, contact, faq, gallery, privacy-policy, terms, refund-policy, 404) give a ready-to-paste &lt;head&gt; block with: a unique &lt;title&gt;, meta description, canonical link (base URL https://YOUR-USERNAME.github.io/skillnest-website/), Open Graph tags (og:title, og:description, og:image, og:url, og:type), Twitter card tags, theme-color, and a favicon link. Keep all my existing CSS links in the same order.
+2. Create a simple SVG favicon file images/favicon.svg (a mortarboard in the primary colour).
+3. Add JSON-LD structured data (EducationalOrganization) for index.html.
+4. Create sitemap.xml and robots.txt for the root folder. 404.html must have meta robots noindex and must not be in the sitemap.
+
+Tell me exactly where to paste each block.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace the &lt;head&gt; of each page with the new block.</li><li>Create images/favicon.svg, sitemap.xml and robots.txt.</li><li>Later replace YOUR-USERNAME with your GitHub username.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The browser tab shows your favicon. Each page has its own title in the tab.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-24" data-step="web-step-24">
+  <header class="step-head">
+    <span class="step-num">Step 24</span>
+    <h3>Quality check: links, mobile, accessibility, errors</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-24"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We ask the AI to act as a strict tester and review everything it built. This catches mistakes before you publish.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 24 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 24 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 24: Act as a strict QA tester. Review all the code you have given me in this chat and check:
+
+1. Broken links between pages and wrong file paths (css/, js/, images/). Paths must be relative (no leading &quot;/&quot;) so they work on GitHub Pages.
+1b. Sideways scrolling on phones: AOS fade-left/fade-right animations and Bootstrap g-5 gutters often cause it. Make sure html, body have overflow-x: clip and rows use g-4 on mobile.
+2. Mobile responsiveness at 320px, 375px, 768px and 1200px widths, including the navbar staying on one line and the hamburger menu opening, closing and navigating.
+3. Accessibility: alt text on all images, aria-labels on icon-only buttons, colour contrast, keyboard navigation, form labels, and a &quot;skip to content&quot; link.
+4. JavaScript errors when an element does not exist on a page (for example counter code running on about.html). Add null checks.
+5. Every page has the same header/footer placeholders and the same script order.
+
+Give me a checklist table of the problems found with the fix for each, then give the corrected code (complete files) only for the files that need changes.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Apply each fix the AI gives you.</li><li>Open every page with F12 &gt; Console open. There should be no red errors.</li><li>If something still breaks, go to the Debugging tab.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Every page opens, every link works, no red errors in the Console, and the site looks good at phone width.</p></div>
+  </div>
+</article>
+
+<article class="step" id="web-step-25" data-step="web-step-25">
+  <header class="step-head">
+    <span class="step-num">Step 25</span>
+    <h3>README and publish on GitHub Pages</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="web-step-25"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> The final step: document your project and publish it free on the internet with your own link to share in your portfolio.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 25 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 25 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our SkillNest Computer Academy website (follow the PRD from Step 1).
+Step 25: Final step.
+
+1. Show me the final folder tree of the project with every file.
+2. Write a README.md: project title, screenshot placeholder, features, tech stack, folder structure, how to run locally, live demo link placeholder, and credits &quot;Built by MY NAME while learning at TICL Academy&quot;.
+3. Give beginner-friendly steps to publish the site free on GitHub Pages using only the GitHub website (no Git commands): create an account, create a PUBLIC repository named skillnest-website, upload all files and folders keeping the same structure (index.html must be at the root), then Settings &gt; Pages &gt; Source: Deploy from a branch &gt; main / (root) &gt; Save, wait 1-2 minutes, and open https://YOUR-USERNAME.github.io/skillnest-website/.
+4. A final testing checklist to go through on my phone and laptop.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create README.md.</li><li>Follow the GitHub Pages steps. Drag the whole folder content into the GitHub upload page.</li><li>Replace YOUR-USERNAME in canonical links and sitemap.xml with your real GitHub username and upload again.</li><li>Picsum placeholder photos are random (a &quot;classroom&quot; image may show a car!). Replace them with your own photos in the images folder for a real website.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Your website is live at https://YOUR-USERNAME.github.io/skillnest-website/ and works on your phone. Congratulations!</p></div>
+  </div>
+</article>
+
+    <div class="card" id="web-resume">
+      <h2>Lost the chat or the AI forgot your project?</h2>
+      <p>Long chats can hit limits, or you may continue on another day or another AI. Start a new chat and use this prompt. Fill in the parts in [BRACKETS].</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Resume prompt</span><button type="button" class="copy-btn" aria-label="Copy Resume prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>I am continuing a static website project that I am building step by step with AI.
+
+My PRD:
+[PASTE THE CONTENT OF PRD.txt HERE]
+
+My current js/components.js:
+[PASTE THE FILE HERE]
+
+My current css/style.css (only if it is needed for this step):
+[PASTE THE FILE HERE]
+
+I have completed up to Step [NUMBER]. Follow the same rules as in the PRD (complete files for HTML/JS, CSS only as additions). Now do this next step:
+[PASTE THE NEXT STEP PROMPT HERE]</pre></div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ======================================================= TAB 2: PYTHON -->
+<section class="panel" id="python" role="tabpanel" aria-labelledby="tab-python">
+ <div class="wrap layout">
+  <aside class="side" aria-label="Python steps">
+    <h4>Your progress</h4>
+    <div class="progress" data-progress="py"><div class="progress-bar"><i></i></div><small>0 of 16 steps done</small></div>
+    <div class="sec-links"><a href="#py-intro">App definition</a><a href="#py-prereq">Prerequisites check</a><a href="#py-resume">Lost the chat? Resume</a></div>
+    <h4 style="margin-top:12px">Steps</h4>
+    <ol><li><a href="#py-step-1"><span>1</span>Write the PRD for the Python app</a></li><li><a href="#py-step-2"><span>2</span>Set up the project and virtual environment</a></li><li><a href="#py-step-3"><span>3</span>Hello Flask: your first running app</a></li><li><a href="#py-step-4"><span>4</span>Base layout with Jinja2 templates</a></li><li><a href="#py-step-5"><span>5</span>Create the SQLite database</a></li><li><a href="#py-step-6"><span>6</span>Show tasks on the home page (Read)</a></li><li><a href="#py-step-7"><span>7</span>Add a new task (Create)</a></li><li><a href="#py-step-8"><span>8</span>Edit a task (Update)</a></li><li><a href="#py-step-9"><span>9</span>Delete and mark complete</a></li><li><a href="#py-step-10"><span>10</span>Filter, search and sort</a></li><li><a href="#py-step-11"><span>11</span>Dashboard with charts</a></li><li><a href="#py-step-12"><span>12</span>Export tasks to CSV</a></li><li><a href="#py-step-13"><span>13</span>About page and error pages</a></li><li><a href="#py-step-14"><span>14</span>Polish: dark mode, due-date labels and mobile view</a></li><li><a href="#py-step-15"><span>15</span>Code review and full test</a></li><li><a href="#py-step-16"><span>16</span>README, .gitignore and sharing</a></li></ol>
+  </aside>
+  <div>
+    <div class="card" id="py-intro">
+      <h2>Project 2: StudyBuddy, a Student Task Manager (Python + Flask)</h2>
+      <p><strong>Objective:</strong> Build a small but complete Python web application that runs on your computer, stores data in a database, and works in the browser, again only by pasting prompts.</p>
+      <div class="intro-grid">
+        <div class="box">
+          <h4>What is the app?</h4>
+          <p><strong>StudyBuddy</strong> helps students manage homework and assignments: add tasks with subject, due date and priority, mark them done, find overdue work, see progress charts, and export to Excel (CSV).</p>
+          <div class="chips"><span class="chip">XP &amp; levels</span><span class="chip">Confetti on completion</span><span class="chip">Glass dashboard</span><span class="chip">Animated charts</span><span class="chip">Dark mode</span></div>
+          <div class="chips"><span class="chip">Python 3</span><span class="chip">Flask</span><span class="chip">SQLite</span><span class="chip">Jinja2</span><span class="chip">Bootstrap 5.3</span><span class="chip">Chart.js</span></div>
+        </div>
+        <div class="box">
+          <h4>Static website vs Python web app</h4>
+          <p style="margin-top:0">The website in Track 1 only <em>shows</em> pages. A Python web app has a <strong>server</strong> (Flask) that runs your Python code on every request and a <strong>database</strong> (SQLite) that remembers data. That is how real apps like portals and dashboards work.</p>
+          <p class="muted" style="margin:0">Note: GitHub Pages cannot run Python. You run it on your computer, and optionally host it on PythonAnywhere (Step 16).</p>
+        </div>
+      </div>
+      <h3>Pages and routes</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>URL</th><th>Page / action</th><th>Built in</th></tr></thead>
+        <tbody>
+          <tr><td><code>/</code></td><td>Task list with filter, search, sort</td><td>Steps 6, 10</td></tr>
+          <tr><td><code>/add</code></td><td>Add task form</td><td>Step 7</td></tr>
+          <tr><td><code>/edit/&lt;id&gt;</code></td><td>Edit task</td><td>Step 8</td></tr>
+          <tr><td><code>/delete/&lt;id&gt;</code>, <code>/toggle/&lt;id&gt;</code></td><td>Delete, mark complete</td><td>Step 9</td></tr>
+          <tr><td><code>/dashboard</code></td><td>Stats and charts</td><td>Step 11</td></tr>
+          <tr><td><code>/export</code></td><td>Download CSV</td><td>Step 12</td></tr>
+          <tr><td><code>/about</code></td><td>Help page (+ 404 and 500 pages)</td><td>Step 13</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Final folder structure</h3>
+<pre class="tree">studybuddy/
+├── app.py               ← Flask routes (the brain)
+├── database.py          ← SQLite connection + table
+├── requirements.txt     ← list of packages (Flask)
+├── studybuddy.db        ← database file (auto-created)
+├── README.md
+├── .gitignore
+├── templates/           ← HTML pages (Jinja2)
+│   ├── base.html  index.html  _task_form.html
+│   ├── add_task.html  edit_task.html  dashboard.html
+│   └── about.html  404.html  500.html
+├── static/
+│   ├── css/style.css
+│   └── js/script.js
+└── venv/                ← virtual environment (do not upload)</pre>
+    </div>
+
+    <div class="card" id="py-prereq">
+      <h2>Prerequisites: install and check before Step 1</h2>
+      <p>Open a terminal: in VS Code go to <strong>Terminal &gt; New Terminal</strong> (Windows: PowerShell or Command Prompt; Mac: Terminal). Type each command and press Enter. Compare with the expected result.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Check</th><th>Windows command</th><th>Mac / Linux command</th><th>Expected result</th><th>If it fails</th></tr></thead>
+        <tbody><tr><td><strong>Python 3.10 or newer</strong></td><td><code>python --version</code><br><span class="muted">or</span> <code>py --version</code></td><td><code>python3 --version</code></td><td>Python 3.12.4 (any 3.10+)</td><td>Download from python.org/downloads. On Windows tick &quot;Add python.exe to PATH&quot; before clicking Install. Reopen the terminal after installing.</td></tr><tr><td><strong>pip (package installer)</strong></td><td><code>python -m pip --version</code><br><span class="muted">or</span> <code>py -m pip --version</code></td><td><code>python3 -m pip --version</code></td><td>pip 24.x from ...</td><td>Run  python -m ensurepip --upgrade , then check again.</td></tr><tr><td><strong>venv module</strong></td><td><code>python -m venv --help</code><br><span class="muted">or</span> <code>py -m venv --help</code></td><td><code>python3 -m venv --help</code></td><td>usage: venv [-h] ...</td><td>Windows: reinstall Python with default options. Ubuntu/Debian: sudo apt install python3-venv</td></tr><tr><td><strong>Which Python is used</strong></td><td><code>where python</code></td><td><code>which python3</code></td><td>A path to python (inside venv after activation)</td><td>If you see a WindowsApps path, disable the Store alias: Settings &gt; Apps &gt; Advanced app settings &gt; App execution aliases &gt; turn off python.exe.</td></tr></tbody>
+      </table></div>
+      <h3>Quick copy: run all checks</h3>
+      <p><strong>Windows:</strong></p>
+      <div class="prompt cmd"><div class="prompt-bar"><span class="prompt-label">Command</span><button type="button" class="copy-btn" aria-label="Copy command"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>python --version
+python -m pip --version
+python -m venv --help
+where python</pre></div>
+      <p><strong>Mac / Linux:</strong></p>
+      <div class="prompt cmd"><div class="prompt-bar"><span class="prompt-label">Command</span><button type="button" class="copy-btn" aria-label="Copy command"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>python3 --version
+python3 -m pip --version
+python3 -m venv --help
+which python3</pre></div>
+      <div class="intro-grid">
+        <div class="box"><h4>Also install</h4>
+          <ol style="margin:0;padding-left:20px">
+            <li><strong>VS Code</strong> with the <strong>Python</strong> extension by Microsoft (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> &gt; search "Python").</li>
+            <li>Optional: <strong>SQLite Viewer</strong> extension to look inside the database.</li>
+            <li>Internet connection (for <code>pip install</code> and the Bootstrap CDN).</li>
+          </ol></div>
+        <div class="box"><h4>Important Python words</h4>
+          <p style="margin:0"><strong>pip</strong>: installs Python packages. <strong>venv</strong>: a private folder of packages for one project. <strong>Flask</strong>: a small framework that turns Python functions into web pages. <strong>Terminal</strong>: where you type commands. <strong>(venv)</strong>: shown at the start of the terminal line when the venv is active.</p></div>
+      </div>
+      <div class="note"><strong>Windows tip:</strong> if <code>python</code> opens the Microsoft Store or says "not recognized", see the Python errors in the <a href="#debug-python" data-goto="debug">Debugging tab</a>. Mac users: always type <code>python3</code> and <code>pip3</code> until the venv is active.</div>
+      <p>Not sure your setup is right? Run the checks above and paste the output into AI with this prompt:</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Setup check prompt</span><button type="button" class="copy-btn" aria-label="Copy Setup check prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Here is the output of these commands from my terminal (I am on [Windows 11 / Mac]):
+
+python --version
+[PASTE OUTPUT]
+
+python -m pip --version
+[PASTE OUTPUT]
+
+pip list
+[PASTE OUTPUT]
+
+where python   (Windows)  OR  which python3   (Mac/Linux)
+[PASTE OUTPUT]
+
+Tell me if my Python setup is correct for a Flask project using a virtual environment, and exactly what to fix if it is not.</pre></div>
+    </div>
+
+    
+<article class="step" id="py-step-1" data-step="py-step-1">
+  <header class="step-head">
+    <span class="step-num">Step 1</span>
+    <h3>Write the PRD for the Python app</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-1"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Same idea as the website: plan first. The PRD fixes the features, URLs (routes), database table and file names, so every next prompt fits together.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 1 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 1 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Act as a senior Python developer and a patient teacher. I am a beginner. We will build a small web app with Python step by step in THIS SAME CHAT. Do NOT write code yet. First write a short Product Requirements Document (PRD) and remember it for all next steps.
+
+APP: StudyBuddy - Student Task &amp; Homework Manager
+PURPOSE: Students add homework, assignments and tasks with subject, due date and priority, mark them done, see what is pending or overdue, and view simple progress charts.
+
+TECH STACK (use ONLY these):
+- Python 3.10+ and Flask
+- SQLite using Python&#x27;s built-in sqlite3 module (no ORM, no SQLAlchemy)
+- Jinja2 templates, Bootstrap 5.3 + Bootstrap Icons (CDN), Chart.js (CDN), a little vanilla JavaScript
+- Runs locally with &quot;python app.py&quot; at http://127.0.0.1:5000
+
+FEATURES:
+1. Home page lists tasks with filter (All / Pending / Completed / Overdue), search, and sort.
+2. Add, edit and delete tasks (title, subject, description, due date, priority Low/Medium/High, status).
+3. Mark a task complete / incomplete with one click.
+4. Dashboard: total, completed, pending, overdue counts, a doughnut chart by status and a bar chart by subject.
+5. Flash messages after every action, and form validation.
+6. Export all tasks to CSV.
+7. About/Help page and custom 404 and 500 pages.
+8. Responsive design and a dark mode toggle.
+9. Motivation (gamification): students earn 10 XP for each completed task; level = XP // 50 + 1 with fun level names (Beginner, Explorer, Achiever, Champion, Legend); confetti celebration when a task is completed; a time-based greeting (&quot;Good morning!&quot;) and a motivational quote of the day.
+
+DESIGN SYSTEM (colourful, modern and interactive, like popular productivity apps such as Notion, Todoist and Linear, but our own design):
+- Colours: primary #4F46E5, violet #7C3AED, pink #EC4899, cyan #06B6D4, amber #F59E0B, green #10B981, red #EF4444
+- Signature gradient: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899)
+- Font: Poppins | Rounded corners 16px | Glassmorphism cards (semi-transparent + backdrop blur) on a soft animated gradient-blob background
+- Micro-interactions: cards lift on hover, buttons glow, smooth fade-in of cards, animated counters, confetti on completion
+- Light and dark mode; animations off for prefers-reduced-motion
+
+FOLDER STRUCTURE:
+studybuddy/
+  app.py
+  database.py
+  requirements.txt
+  studybuddy.db        (created automatically)
+  templates/  base.html, index.html, _task_form.html, add_task.html, edit_task.html, dashboard.html, about.html, 404.html, 500.html
+  static/css/style.css
+  static/js/script.js
+  venv/                (virtual environment)
+
+ROUTE FUNCTION NAMES (always use exactly these): index, add_task, edit_task, delete_task, toggle_task, dashboard, export_csv, about.
+
+RULES FOR EVERY NEXT STEP:
+1. Give the COMPLETE code of every file you change, with the file path as a heading.
+2. Explain in simple words what the code does.
+3. Give the exact terminal command to run (Windows first, then Mac/Linux) and what I should see in the browser.
+4. Keep the code simple and well-commented: no blueprints, no classes unless really needed.
+
+Write the PRD with: Overview, Users, Features, Routes table (URL, method, function, purpose), Database table &quot;tasks&quot; (id, title, subject, description, due_date, priority, status, created_at), Folder Structure, Tech Stack, Success Criteria. End with: &quot;PRD ready. Say Step 2 to continue.&quot;</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Read the PRD and ask for changes if you want (for example, add your school subjects).</li><li>Save the PRD reply in a file named PRD.txt in your project folder.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The AI shows a PRD with a routes table and a database table, ending with &quot;PRD ready&quot;.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-2" data-step="py-step-2">
+  <header class="step-head">
+    <span class="step-num">Step 2</span>
+    <h3>Set up the project and virtual environment</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-2"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A virtual environment (venv) is a private box for this project&#x27;s Python packages. We create it, activate it and install Flask.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 2 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 2 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 2: Help me set up the project.
+
+1. Give the exact commands to: create the folder studybuddy, go into it, create a virtual environment named venv, activate it (Windows PowerShell, Windows Command Prompt, and Mac/Linux), upgrade pip, and install Flask.
+2. Explain how I know the venv is active (the &quot;(venv)&quot; text at the start of the terminal line).
+3. Create requirements.txt with Flask pinned to a recent stable version, and give the command to install from it.
+4. Show the folder structure to create (templates/, static/css/, static/js/) and which empty files to create now.
+5. Explain how to select the venv interpreter in VS Code (Ctrl+Shift+P &gt; &quot;Python: Select Interpreter&quot;).
+6. Explain what to do if PowerShell says &quot;running scripts is disabled on this system&quot;.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Open the studybuddy folder in VS Code (File &gt; Open Folder).</li><li>Open the terminal (Terminal &gt; New Terminal) and run the commands one by one.</li><li>Check that you see (venv) at the start of the terminal line.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Running  pip show flask  shows the Flask version. The folders templates and static exist.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-3" data-step="py-step-3">
+  <header class="step-head">
+    <span class="step-num">Step 3</span>
+    <h3>Hello Flask: your first running app</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-3"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> The smallest possible Flask app. If this runs, your setup is correct.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 3 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 3 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 3: Create a minimal app.py that creates a Flask app with one route &quot;/&quot; (function name index) returning &quot;StudyBuddy is running!&quot;, and runs with debug=True when I execute python app.py.
+
+Explain each line in simple words. Tell me the command to run it, the URL to open, how to stop the server (Ctrl+C), and what debug mode does.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create app.py and paste the code.</li><li>Run  python app.py  (Mac/Linux: python3 app.py).</li><li>Open http://127.0.0.1:5000 in your browser.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The browser shows &quot;StudyBuddy is running!&quot;. The terminal shows &quot;Running on http://127.0.0.1:5000&quot;.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-4" data-step="py-step-4">
+  <header class="step-head">
+    <span class="step-num">Step 4</span>
+    <h3>Base layout with Jinja2 templates</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-4"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Instead of repeating the navbar on every page, we create one base.html and let other pages extend it.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 4 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 4 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 4: Create the layout using Jinja2 templates.
+
+1. templates/base.html: HTML5 boilerplate, Bootstrap 5.3 CSS and JS CDN, Bootstrap Icons CDN, Google Font Poppins, static/css/style.css linked with url_for; in &lt;head&gt; a tiny inline script that applies the saved theme from localStorage &quot;theme&quot; (try/catch) to data-bs-theme on &lt;html&gt; (for dark mode later); 3 fixed, blurred, slowly floating gradient blobs behind everything (decorative, pointer-events none); a sticky glass navbar (brand = book icon in a gradient rounded square + &quot;StudyBuddy&quot; in gradient text; links Home, Add Task, Dashboard, About with icons; active link shown as a gradient pill using request.endpoint; collapses to a hamburger on mobile; on phones as small as 320px the brand, the theme button, the level badge (added later) and the hamburger must stay on ONE line); an emoji favicon using an inline SVG data URL (so the browser does not request /favicon.ico and show a 404 in the terminal); a main container with a block named content; a block named scripts for page-specific JS; a footer &quot;(c) year StudyBuddy - Built at TICL Academy&quot;; and static/js/script.js.
+2. templates/index.html that extends base.html with a big welcome heading in gradient text.
+3. static/css/style.css with the design system from the PRD: CSS variables, the blob background and float animation, .glass card style, .gradient-text, .btn-brand (gradient + glow + lift), navbar styles, a footer that stays at the bottom, dark mode tweaks using [data-bs-theme=&quot;dark&quot;], and a prefers-reduced-motion rule.
+4. static/js/script.js with a console.log message.
+5. Update app.py so index renders index.html with render_template, and add temporary routes add_task (/add), dashboard (/dashboard) and about (/about) that return simple text, so the navbar links do not break.
+
+Give the complete code of all files.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create every file in the right folder (templates/ or static/...).</li><li>Save all files. With debug mode the server restarts by itself; if not, stop it with Ctrl+C and run python app.py again.</li><li>Refresh the browser.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>You see a navbar, welcome heading and footer. Clicking Add Task / Dashboard / About shows simple text.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-5" data-step="py-step-5">
+  <header class="step-head">
+    <span class="step-num">Step 5</span>
+    <h3>Create the SQLite database</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-5"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> SQLite stores data in one file and comes built into Python, so nothing extra to install.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 5 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 5 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 5: Set up the SQLite database.
+
+1. Create database.py with: DB_NAME = &quot;studybuddy.db&quot; stored in the same folder as database.py (use an absolute path built with os.path), get_db_connection() returning a connection with row_factory = sqlite3.Row, and init_db() that creates the tasks table if it does not exist (columns from the PRD; status default &#x27;Pending&#x27;; created_at default CURRENT_TIMESTAMP).
+2. Add seed_sample_tasks() that inserts 5 sample tasks only if the table is empty (different subjects and priorities; some due dates in the past so we can test &quot;overdue&quot;).
+3. Update app.py so init_db() and seed_sample_tasks() run once when the app starts.
+4. Tell me how to check that studybuddy.db was created, and (optional) how to view it with the &quot;SQLite Viewer&quot; VS Code extension.
+
+Give the complete database.py and app.py.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create database.py and replace app.py.</li><li>Restart the app: Ctrl+C, then python app.py.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>A file named studybuddy.db appears in the studybuddy folder.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-6" data-step="py-step-6">
+  <header class="step-head">
+    <span class="step-num">Step 6</span>
+    <h3>Show tasks on the home page (Read)</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-6"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We read tasks from the database and display them as cards with coloured badges.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 6 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 6 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 6: Show all tasks on the home page.
+
+- In app.py, the index route reads all tasks from the database ordered by due_date and passes them to index.html.
+- index.html shows a header row with a time-based greeting (&quot;Good morning!&quot;, &quot;Good afternoon!&quot;, &quot;Good evening!&quot; calculated in Python) and an &quot;Add Task&quot; gradient button, then tasks as responsive glass cards in a grid (3 per row desktop, 2 tablet, 1 mobile): title, subject badge with a different colour per subject, due date with a calendar icon, priority badge (High = red, Medium = amber, Low = green), status, and a pulsing red &quot;Overdue&quot; badge if the due date is before today and the status is Pending. Cards fade in one after another (CSS animation-delay) and lift on hover.
+- Work out &quot;overdue&quot; in Python (pass today&#x27;s date as a string in YYYY-MM-DD format to the template).
+- If there are no tasks, show a friendly empty state with an &quot;Add your first task&quot; button.
+
+Give the complete app.py and index.html, and the CSS to ADD at the end of static/css/style.css.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace app.py and templates/index.html.</li><li>Add the CSS at the end of static/css/style.css.</li><li>Refresh the browser.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The 5 sample tasks appear as cards. Tasks with past dates show a red &quot;Overdue&quot; badge.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-7" data-step="py-step-7">
+  <header class="step-head">
+    <span class="step-num">Step 7</span>
+    <h3>Add a new task (Create)</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-7"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A form to add tasks, with server-side validation and flash messages that confirm each action.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 7 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 7 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 7: Build the Add Task feature.
+
+- templates/add_task.html with a Bootstrap form: Title (required), Subject (dropdown: Maths, Science, English, Computer, Social Science, Gujarati, Other), Description (textarea), Due Date (date input), Priority (Low / Medium / High).
+- The add_task route (/add) accepts GET (show the form) and POST (save). Validate on the server: title required and max 100 characters, due date required. If invalid, show the form again, keeping the user&#x27;s values, with error messages.
+- After saving, redirect to the home page with a success flash message. Set app.secret_key, and show flashed messages in base.html as dismissible Bootstrap alerts with categories success / danger / warning / info.
+- Use parameterized SQL queries (?) to prevent SQL injection, and explain why in one line.
+
+Give the complete app.py, add_task.html and base.html.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace app.py and templates/base.html; create templates/add_task.html.</li><li>Click &quot;Add Task&quot; and submit an empty form, then a correct one.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>An empty title shows an error. A correct task is saved, you return to Home, and a green message appears.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-8" data-step="py-step-8">
+  <header class="step-head">
+    <span class="step-num">Step 8</span>
+    <h3>Edit a task (Update)</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-8"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We reuse the same form for adding and editing using a Jinja include, so we don&#x27;t duplicate code.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 8 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 8 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 8: Build Edit Task.
+
+- Add an &quot;Edit&quot; button (pencil icon) on each task card.
+- Route /edit/&lt;int:task_id&gt; (function edit_task) with GET and POST: load the task (show 404 with abort(404) if not found), templates/edit_task.html pre-fills the form, save changes with UPDATE, validate the same way as add, flash &quot;Task updated&quot;, redirect to home.
+- To avoid duplicate code, create templates/_task_form.html with the form fields and include it in both add_task.html and edit_task.html.
+
+Give the complete code of all changed files.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create templates/_task_form.html and templates/edit_task.html; replace the other changed files.</li><li>Click Edit on a task, change the title, save.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The form opens pre-filled. After saving, the new title shows on Home with &quot;Task updated&quot;.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-9" data-step="py-step-9">
+  <header class="step-head">
+    <span class="step-num">Step 9</span>
+    <h3>Delete and mark complete</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-9"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Delete safely with a confirmation popup, and tick tasks as done with one click.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 9 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 9 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 9: Add Delete and Mark Complete.
+
+- Delete: route /delete/&lt;int:task_id&gt; (function delete_task) accepting POST only. The Delete button opens a Bootstrap confirmation modal (&quot;Are you sure you want to delete TASK TITLE?&quot;) before submitting a small POST form. Flash &quot;Task deleted&quot;.
+- Toggle: route /toggle/&lt;int:task_id&gt; (function toggle_task), POST only, switching status between Pending and Completed. Show a round check button on each card; completed tasks show a strike-through title and a faded card. Flash the new status. When a task becomes Completed, flash it with the category &quot;celebrate&quot; and the message &quot;Task completed! +10 XP&quot;. In base.html load the canvas-confetti library from jsDelivr, and in static/js/script.js fire a confetti burst when a &quot;celebrate&quot; flash message is on the page (skip safely if the library did not load or prefers-reduced-motion is on).
+
+Give the complete code of all changed files (app.py, index.html, static/js/script.js if needed) and the CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace the changed files and add the CSS.</li><li>Test delete (Cancel and Confirm) and the check button.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Deleting asks for confirmation first. Ticking a task strikes it through; ticking again restores it.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-10" data-step="py-step-10">
+  <header class="step-head">
+    <span class="step-num">Step 10</span>
+    <h3>Filter, search and sort</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-10"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Students find tasks quickly. We use URL query parameters, so the filters even work without JavaScript.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 10 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 10 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 10: Add filter, search and sort on the home page using URL query parameters (a GET form).
+
+- Filter pills: All, Pending, Completed, Overdue, each showing its count.
+- A search box that searches title, subject and description (SQL LIKE with parameters).
+- A sort dropdown: Due date (soonest first), Priority (High first), Newest first.
+- Keep the selected values after the page reloads, and add a &quot;Clear&quot; button.
+- On phones the search box, sort dropdown and buttons must stack neatly (full width), with nothing cut off.
+- Build the SQL safely: only allow known sort options from a Python dictionary (never put user text directly into ORDER BY).
+
+Give the complete app.py and index.html.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace app.py and templates/index.html.</li><li>Try each filter, search for a subject, and change the sort order.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>The URL changes (for example ?status=pending&amp;q=maths) and the list updates correctly.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-11" data-step="py-step-11">
+  <header class="step-head">
+    <span class="step-num">Step 11</span>
+    <h3>Dashboard with charts</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-11"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Numbers and charts show progress at a glance. You learn how to pass Python data to JavaScript safely.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 11 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 11 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 11: Build the Dashboard page.
+
+- The dashboard route calculates: total tasks, completed, pending (not overdue), overdue, completion percentage, and the number of tasks per subject.
+- Gamification: XP = completed tasks x 10, level = XP // 50 + 1, level name from a list (Beginner, Explorer, Achiever, Champion, Legend; stay on Legend after level 5), and XP needed for the next level.
+- templates/dashboard.html: a hero card with the signature gradient showing &quot;Level N - Level name&quot;, total XP and an animated XP progress bar to the next level; 4 glass stat cards with gradient icons whose numbers count up from 0 (JavaScript); a circular progress ring (SVG) for completion %; a Chart.js doughnut chart (Completed / Pending / Overdue) and a bar chart (tasks per subject) using the brand colours with rounded bars; and a list of the next 5 upcoming pending tasks.
+- Pass chart data to JavaScript safely using Jinja&#x27;s tojson filter. Load Chart.js from the jsDelivr CDN only on this page (use a block in base.html for extra scripts).
+- Charts must be responsive (wrap each canvas in a div with a fixed height and use maintainAspectRatio: false) and show a &quot;No data yet&quot; message when there are no tasks.
+- On very small phones (320-400px) the stat cards stack the icon above the number so nothing overflows.
+
+Give the complete app.py, base.html and dashboard.html, and the CSS to ADD.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace the changed files and add the CSS.</li><li>Open the Dashboard from the navbar.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>You see 4 numbers, a progress bar, a doughnut chart and a bar chart.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-12" data-step="py-step-12">
+  <header class="step-head">
+    <span class="step-num">Step 12</span>
+    <h3>Export tasks to CSV</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-12"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Students can download their tasks and open them in Excel or Google Sheets.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 12 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 12 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 12: Add Export to CSV.
+
+- Route /export (function export_csv) that creates a CSV of all tasks (columns: ID, Title, Subject, Description, Due Date, Priority, Status, Created At) using Python&#x27;s built-in csv and io modules, and returns it as a download named studybuddy_tasks_YYYY-MM-DD.csv using Flask Response with the correct Content-Disposition header.
+- Use UTF-8 with BOM so Excel shows Gujarati and Hindi text correctly.
+- Add an &quot;Export CSV&quot; button on the home page and the dashboard.
+
+Give the complete code of the changed files.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace the changed files.</li><li>Click &quot;Export CSV&quot; and open the downloaded file.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>A CSV file downloads and opens in Excel/Sheets with all your tasks.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-13" data-step="py-step-13">
+  <header class="step-head">
+    <span class="step-num">Step 13</span>
+    <h3>About page and error pages</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-13"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> A help page for users, plus friendly pages for &quot;not found&quot; and &quot;server error&quot; instead of plain errors.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 13 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 13 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 13: Add the About page and error pages.
+
+- templates/about.html (replace the temporary about route): what StudyBuddy is, how to use it (numbered steps with icons), the tech stack with a one-line explanation of each (Flask, SQLite, Jinja2, Bootstrap, Chart.js), and &quot;Built by YOUR NAME at TICL Academy&quot;.
+- templates/404.html with a friendly message and a &quot;Back to Home&quot; button, registered with @app.errorhandler(404).
+- templates/500.html for server errors, registered with @app.errorhandler(500).
+
+Give the complete code of all changed files.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create the 3 templates and replace app.py.</li><li>Open http://127.0.0.1:5000/xyz to test the 404 page.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>About page shows. A wrong URL shows your custom 404 page.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-14" data-step="py-step-14">
+  <header class="step-head">
+    <span class="step-num">Step 14</span>
+    <h3>Polish: dark mode, due-date labels and mobile view</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-14"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Finishing touches that make the app feel professional.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 14 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 14 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 14: Polish the UI.
+
+- A dark mode toggle button (moon/sun icon that rotates) in the navbar using Bootstrap 5.3 data-bs-theme on &lt;html&gt;, saved in localStorage key &quot;theme&quot; (wrapped in try/catch). The inline script from Step 4 already applies it before the page paints.
+- A motivational &quot;Quote of the day&quot; glass card on the home page (pick from a list of 15 study quotes in Python using today&#x27;s date so it changes daily).
+- Show the student&#x27;s level badge (for example &quot;Lv 2 Explorer&quot;) in the navbar on every page (use a Flask context_processor).
+- A friendly due-date label on each card: &quot;Due today&quot;, &quot;Due tomorrow&quot;, &quot;Due in 5 days&quot;, &quot;3 days overdue&quot;. Calculate it in Python with a Jinja template filter.
+- A coloured left border on each card based on priority, and a gradient glow on hover.
+- Make the filter pills, form inputs and buttons match the design system (gradient focus ring on inputs, gradient active pill).
+- Auto-hide flash messages after 4 seconds (static/js/script.js).
+- Check every page looks good at 320px and 375px mobile widths: navbar on one line, no sideways scrolling, nothing cut off.
+
+Give the complete code of all changed files.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Replace the changed files.</li><li>Press F12 and use the phone icon to test mobile view.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Dark mode works and is remembered. Cards show &quot;Due tomorrow&quot; style labels. Messages disappear after 4 seconds.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-15" data-step="py-step-15">
+  <header class="step-head">
+    <span class="step-num">Step 15</span>
+    <h3>Code review and full test</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-15"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> We ask the AI to review all its own code like a strict senior developer, then test every feature.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 15 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 15 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 15: Act as a strict code reviewer. Review all the StudyBuddy code you gave me in this chat and check for:
+- errors that could crash the app and missing imports
+- url_for() calls in templates that point to routes that do not exist
+- SQL injection risks and missing form validation
+- templates that do not extend base.html
+- anything a beginner might have pasted wrongly
+
+Give me a table of issues and fixes, then the final complete versions of app.py and database.py. Also give a manual test checklist: add, edit, delete, toggle, filter, search, sort, dashboard, export, 404 page, dark mode.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Apply the fixes.</li><li>Go through the test checklist one by one.</li><li>If an error appears, use the Debugging tab.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Every item in the test checklist works with no errors in the terminal.</p></div>
+  </div>
+</article>
+
+<article class="step" id="py-step-16" data-step="py-step-16">
+  <header class="step-head">
+    <span class="step-num">Step 16</span>
+    <h3>README, .gitignore and sharing</h3>
+    <label class="done-toggle"><input type="checkbox" class="done-cb" data-key="py-step-16"> Done</label>
+  </header>
+  <p class="what"><strong>What this step does:</strong> Document your app so others (and recruiters) can run it, and put the code on GitHub.</p>
+  <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Step 16 prompt</span><button type="button" class="copy-btn" aria-label="Copy Step 16 prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Continue our StudyBuddy Flask app (follow the PRD from Step 1).
+Step 16: Final step.
+
+1. Show the final folder tree.
+2. Write README.md: title, description, features, screenshots placeholder, tech stack, how to install and run (Windows and Mac/Linux commands), folder structure, and credits &quot;Built at TICL Academy&quot;.
+3. Create a .gitignore for this Flask project (venv/, __pycache__/, *.db, .env).
+4. Explain in simple steps how to upload the code to a GitHub repository using only the GitHub website. Note: GitHub Pages cannot run Python, so this is for sharing code only.
+5. Optional: beginner steps to host the app free on PythonAnywhere so friends can use it online.</pre></div>
+  <div class="step-grid">
+    <div class="after"><h4>After the AI replies</h4><ol><li>Create README.md and .gitignore.</li><li>Upload your project (without the venv folder) to a new GitHub repository.</li></ol></div>
+    <div class="check"><h4>Check it worked</h4><p>Your code is on GitHub with a clear README. Congratulations, you built a full Python web app with AI!</p></div>
+  </div>
+</article>
+
+    <div class="card" id="py-resume">
+      <h2>Lost the chat or the AI forgot your project?</h2>
+      <p>Start a new chat and use this prompt. Fill in the parts in [BRACKETS].</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Resume prompt</span><button type="button" class="copy-btn" aria-label="Copy Resume prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>I am continuing a Python Flask project (StudyBuddy) that I am building step by step with AI.
+
+My PRD:
+[PASTE THE CONTENT OF PRD.txt HERE]
+
+My current app.py:
+[PASTE THE FILE HERE]
+
+My current database.py:
+[PASTE THE FILE HERE]
+
+I have completed up to Step [NUMBER]. Follow the same rules as in the PRD (complete files, simple code, Windows and Mac commands). Now do this next step:
+[PASTE THE NEXT STEP PROMPT HERE]</pre></div>
+      <div class="note green"><strong>Every time you come back to the project:</strong> open the folder in VS Code, open a terminal, activate the venv, then run the app.</div>
+      <p><strong>Windows (PowerShell):</strong></p>
+      <div class="prompt cmd"><div class="prompt-bar"><span class="prompt-label">Command</span><button type="button" class="copy-btn" aria-label="Copy command"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>venv\Scripts\Activate.ps1
+python app.py</pre></div>
+      <p><strong>Mac / Linux:</strong></p>
+      <div class="prompt cmd"><div class="prompt-bar"><span class="prompt-label">Command</span><button type="button" class="copy-btn" aria-label="Copy command"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>source venv/bin/activate
+python app.py</pre></div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ======================================================= TAB 3: DEBUG -->
+<section class="panel" id="debug" role="tabpanel" aria-labelledby="tab-debug">
+ <div class="wrap layout">
+  <aside class="side" aria-label="Debugging sections">
+    <h4>Sections</h4>
+    <div class="sec-links">
+      <a href="#debug-loop">The AI debugging loop</a>
+      <a href="#debug-ss">Take a screenshot</a>
+      <a href="#debug-capture">What to capture (examples)</a>
+      <a href="#debug-paste">Paste screenshot in AI</a>
+      <a href="#debug-universal">Master error prompts</a>
+      <a href="#debug-web">Website errors</a>
+      <a href="#debug-python">Python errors</a>
+      <a href="#debug-trace">Read a Python traceback</a>
+      <a href="#debug-stuck">When AI goes in circles</a>
+      <a href="#debug-rules">Golden rules</a>
+    </div>
+  </aside>
+  <div>
+    <div class="card" id="debug-loop">
+      <h2>Troubleshooting with AI</h2>
+      <p>Errors are normal. Even professional developers see them every day. The skill is to give the AI <strong>exact information</strong> so it can find the cause. A vague message like "it's not working" gets a vague answer. Follow this loop every time:</p>
+      <div class="loop">
+        <div><b>1</b>See the error</div>
+        <div><b>2</b>Capture it: screenshot + copy the text</div>
+        <div><b>3</b>Find the file and the step</div>
+        <div><b>4</b>Fill an error prompt and send</div>
+        <div><b>5</b>Apply the fix exactly</div>
+        <div><b>6</b>Test again. Repeat if needed</div>
+      </div>
+      <div class="note blue"><strong>Where do errors appear?</strong> Website errors: in the browser's <strong>Console</strong> (<kbd>F12</kbd> &gt; Console) or visible on the page. Python errors: in the <strong>terminal</strong> where you ran <code>python app.py</code>, and sometimes in the browser as "Internal Server Error".</div>
+    </div>
+
+    <div class="card" id="debug-ss">
+      <h2>Step 1: How to take a screenshot</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Device</th><th>Part of the screen (best)</th><th>Full screen</th><th>Where it goes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Windows 10/11</strong></td><td><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>, then drag over the area</td><td><kbd>Win</kbd>+<kbd>PrtSc</kbd></td><td>Copied to clipboard (ready to paste). Full screen saves to Pictures &gt; Screenshots.</td></tr>
+          <tr><td><strong>Mac</strong></td><td><kbd>Cmd</kbd>+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>4</kbd>, then drag</td><td><kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>3</kbd></td><td>With <kbd>Ctrl</kbd>: clipboard. Without <kbd>Ctrl</kbd>: saved on the Desktop.</td></tr>
+          <tr><td><strong>Chromebook</strong></td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Show windows</kbd></td><td><kbd>Ctrl</kbd>+<kbd>Show windows</kbd></td><td>Downloads folder and clipboard.</td></tr>
+          <tr><td><strong>Android phone</strong></td><td colspan="2"><kbd>Power</kbd>+<kbd>Volume down</kbd> together</td><td>Gallery &gt; Screenshots.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="note"><strong>Make it readable:</strong> zoom the browser (<kbd>Ctrl</kbd>+<kbd>+</kbd>) or terminal before capturing so the red error text is clear. Capture only the useful area, not your whole desktop.</div>
+    </div>
+
+    <div class="card" id="debug-capture">
+      <h2>Step 2: What to capture (example screenshots)</h2>
+      <div class="mock-row">
+        <div>
+          <div class="mock" role="img" aria-label="Example screenshot of a browser with the DevTools console showing red errors">
+            <div class="win-bar"><i></i><i></i><i></i><span class="url">127.0.0.1:5500/index.html</span></div>
+            <div class="fake-page"><div class="fake-nav"></div><div class="fake-line"></div><div class="fake-line s"></div><div class="fake-broken">menu not opening</div></div>
+            <div class="devtools">
+              <div class="dt-tabs"><span>Elements</span><span class="on">Console <span class="tag">1</span></span><span>Sources</span><span>Network</span></div>
+              <div class="dt-line ok"><span>SkillNest site loaded</span><span class="src">main.js:2</span></div>
+              <div class="dt-line err-l"><span>&#x2716; GET http://127.0.0.1:5500/css/styles.css net::ERR_ABORTED 404 (Not Found) <span class="tag">2</span></span><span class="src">index.html:12</span></div>
+              <div class="dt-line err-l"><span>&#x2716; Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')</span><span class="src">main.js:18 <span class="tag">3</span></span></div>
+            </div>
+          </div>
+          <ul class="callouts">
+            <li><b>1</b>Press <kbd>F12</kbd> (Mac: <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd>) and click the <strong>Console</strong> tab.</li>
+            <li><b>2</b>Red lines are errors. Here <code>styles.css</code> was not found: the file is really named <code>style.css</code>.</li>
+            <li><b>3</b>The right side shows the <strong>file and line number</strong>. Tell the AI this.</li>
+          </ul>
+          <p class="mock-cap">Website: capture the page AND the Console. Also right-click the error &gt; "Copy message" to paste the text.</p>
+        </div>
+        <div>
+          <div class="mock" role="img" aria-label="Example screenshot of a terminal showing a Python traceback">
+            <div class="win-bar"><i></i><i></i><i></i><span class="url">Terminal: PowerShell</span></div>
+<div class="term"><span class="p">(venv) PS C:\Users\student\studybuddy&gt;</span> python app.py
+Traceback (most recent call last):
+  <span class="f">File "C:\Users\student\studybuddy\app.py", line 1, in &lt;module&gt;</span> <span class="tag">2</span>
+    from flask import Flask, render_template
+<span class="e">ModuleNotFoundError: No module named 'flask'</span> <span class="tag">1</span>
+<span class="p">(venv) PS C:\Users\student\studybuddy&gt;</span> <span class="tag">3</span></div>
+          </div>
+          <ul class="callouts">
+            <li><b>1</b>The <strong>last line</strong> is the actual error. Always read it first.</li>
+            <li><b>2</b>The <code>File ... line N</code> line shows where in YOUR code it happened.</li>
+            <li><b>3</b><code>(venv)</code> shows the virtual environment is active. Mention this to the AI.</li>
+          </ul>
+          <p class="mock-cap">Python: capture the whole terminal from "Traceback" to the last line. Select the text, copy it (<kbd>Ctrl</kbd>+<kbd>C</kbd>, or right-click in the VS Code terminal) and paste it too.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="debug-paste">
+      <h2>Step 3: How to paste the screenshot and prompt into the AI</h2>
+      <div class="mock-row">
+        <div class="mock" role="img" aria-label="Example of an AI chat box with an attached screenshot and a typed prompt">
+          <div class="win-bar"><i></i><i></i><i></i><span class="url">Your AI chatbot</span></div>
+          <div class="chat-mock">
+            <div class="chat-box">
+              <span class="attach"><span class="thumb"></span>screenshot.png <span class="tag">1</span></span>
+              <div class="chat-text">I am a beginner building a static website... Error message (copied): Uncaught TypeError: Cannot read properties of null... <span class="tag">2</span></div>
+              <div class="chat-actions"><span class="clip" title="Attach">+</span><span class="send" title="Send">&#x2191;</span></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <ul class="callouts">
+            <li><b>1</b><strong>Attach the screenshot:</strong> click in the chat box and press <kbd>Ctrl</kbd>+<kbd>V</kbd> (Mac: <kbd>Cmd</kbd>+<kbd>V</kbd>) if it is on the clipboard, or click the <strong>+ / paperclip</strong> icon and choose the image file. Works in ChatGPT, Claude, Gemini and Copilot.</li>
+            <li><b>2</b><strong>In the same message</strong>, paste a filled-in error prompt from below, including the copied error text and your code.</li>
+            <li><b>3</b>Press <strong>Send</strong>. Apply the fix, save, refresh, and test.</li>
+          </ul>
+          <div class="note blue" style="margin-top:14px"><strong>Why both screenshot AND text?</strong> The screenshot shows the context (what the page looks like). The copied text lets the AI read the error exactly, without guessing blurry letters.</div>
+          <div class="note red"><strong>Privacy:</strong> never include passwords, API keys, OTPs, bank details or personal ID in screenshots or prompts. Crop them out first.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="debug-universal">
+      <h2>Master error prompts (use for any problem)</h2>
+      <h3>1. Universal error prompt (most useful)</h3>
+      <p>Replace everything in [BRACKETS]. Delete the parts that do not apply.</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Universal error prompt</span><button type="button" class="copy-btn" aria-label="Copy Universal error prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>I am a beginner building [a static website with HTML, CSS, JavaScript and Bootstrap / a Python Flask app]. I am on Step [NUMBER] of my project.
+
+What I was trying to do: [describe]
+What I expected to happen: [describe]
+What actually happened: [describe]
+
+The exact error message (copied, not typed):
+[PASTE THE FULL ERROR TEXT HERE]
+
+The file where the problem happens is [FILE NAME]. Here is its complete code:
+[PASTE THE CODE HERE]
+
+I have also attached a screenshot.
+
+Please:
+1. Explain in simple words what the error means and why it happened.
+2. Tell me exactly which file and which line to change.
+3. Give me the corrected complete code of that file.
+4. Tell me how to test that it is fixed.</pre></div>
+      <h3>2. Screenshot-only prompt (for visual/layout problems)</h3>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Screenshot prompt</span><button type="button" class="copy-btn" aria-label="Copy Screenshot prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>I have attached a screenshot of my [web page / browser console / terminal].
+Problem in one line: [for example: the navbar covers the hero heading on mobile].
+
+1. Describe what you see is wrong in the screenshot.
+2. Tell me the most likely cause.
+3. Give me the exact code fix and tell me which file to put it in.
+If you need to see my code, tell me which file to paste.</pre></div>
+      <h3>3. "Make it look like this" prompt</h3>
+      <p>Use when the design is wrong but there is no error. Attach your current screenshot and a reference image.</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Design comparison prompt</span><button type="button" class="copy-btn" aria-label="Copy Design comparison prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>I have attached two screenshots.
+Screenshot 1: how my [section name] looks now.
+Screenshot 2: how I want it to look.
+
+Here is the HTML of that section:
+[PASTE HTML]
+Here is the related CSS:
+[PASTE CSS]
+
+Tell me what is different and give me the changed code to make it look like Screenshot 2. Keep it responsive on mobile.</pre></div>
+      <h3>4. Learn from the fix</h3>
+      <p>After an error is fixed, send this to actually learn something:</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Learning prompt</span><button type="button" class="copy-btn" aria-label="Copy Learning prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Explain the fix you just gave me as if I am a 10th standard student: what was wrong, why your change fixes it, and how I can avoid this mistake next time. Keep it under 150 words.</pre></div>
+    </div>
+
+    <div class="card" id="debug-web">
+      <h2>Website (static app) common problems and prompts</h2>
+      <p>Click a problem to see its cause and a ready-made prompt. Always attach a screenshot as well.</p>
+      <details class="err"><summary><span class="err-ic">!</span>The page is completely blank / white</summary><p><strong>Common cause:</strong> Usually a missing closing tag, a wrong file name, or a JavaScript error that stops the page.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>My page [FILE NAME] shows a completely blank white page in the browser.
+Here is my full HTML:
+[PASTE HTML]
+The browser console (F12 &gt; Console) shows:
+[PASTE THE RED ERRORS, or write &quot;no errors&quot;]
+Find why nothing is showing and give me the corrected complete file.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>My CSS styles are not applied</summary><p><strong>Common cause:</strong> Wrong path to style.css, a typo in the file name, or Bootstrap loaded after your CSS and overriding it.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>My CSS styles are not applying to my page.
+My folder structure is:
+[DESCRIBE OR PASTE THE FOLDER TREE]
+My &lt;head&gt; section is:
+[PASTE THE HEAD]
+Check the file path to style.css, the spelling and capital letters, and the order of the &lt;link&gt; tags (Bootstrap must come before my style.css). Give me the corrected &lt;head&gt;.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Hamburger menu does not open on mobile</summary><p><strong>Common cause:</strong> Bootstrap JS not loaded, loaded twice, or the data-bs-target id does not match the menu id.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>On mobile width my Bootstrap navbar hamburger button does not open the menu.
+Here is my header code from js/components.js:
+[PASTE]
+Here are the &lt;script&gt; tags at the bottom of my HTML:
+[PASTE]
+Check that the Bootstrap bundle JS is loaded only once, that data-bs-toggle and data-bs-target match the id of the collapse menu, and that there are no duplicate Bootstrap versions. Give me the fix.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Layout breaks on mobile / page scrolls sideways</summary><p><strong>Common cause:</strong> One element (image, row, fixed width) is wider than the phone screen. Very common causes: AOS fade-left/fade-right animations and Bootstrap g-5 gutters. Quick fix: html, body { overflow-x: clip; } and use g-4 on rows.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>My page has a horizontal scrollbar and the layout breaks on mobile (360px wide). Screenshot attached.
+Here is the HTML of the broken section:
+[PASTE]
+Here is the related CSS:
+[PASTE]
+Find the element that is wider than the screen and fix it without breaking the desktop layout.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Console: Cannot read properties of null (reading &#x27;addEventListener&#x27;)</summary><p><strong>Common cause:</strong> JavaScript is looking for an element that does not exist on this page (or runs before the page loads).</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>My browser console shows:
+Uncaught TypeError: Cannot read properties of null (reading &#x27;addEventListener&#x27;) at main.js:[LINE]
+Here is my main.js:
+[PASTE]
+This file is shared by all pages. Explain why this happens and fix it with null checks so it works on every page.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Images do not show (broken image icon)</summary><p><strong>Common cause:</strong> Wrong path, wrong capital letters (GitHub Pages is case-sensitive), or the file is not uploaded.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>My image is not showing (broken image icon).
+My &lt;img&gt; tag is:
+[PASTE]
+The image file is saved at: [PATH, for example images/Logo.PNG]
+Remember that GitHub Pages is case-sensitive. Find the problem and give me the correct src.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Works on my computer but GitHub Pages shows 404 or no styles</summary><p><strong>Common cause:</strong> index.html not in the root, wrong letter case, paths starting with &quot;/&quot;, or Pages not enabled.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>My website works on my computer, but on GitHub Pages I get a 404 error / the page has no styles.
+My repository URL: [PASTE]
+My published URL: [PASTE]
+My folder structure in the repository (screenshot attached): [DESCRIBE]
+Tell me what is wrong (index.html location, case-sensitive file names, links starting with &quot;/&quot;, Pages settings) and how to fix it.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Header or footer does not appear on a page</summary><p><strong>Common cause:</strong> The page is missing the placeholder div, the script tag for components.js, or there is a JS error.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>The header and footer from js/components.js do not appear on [PAGE NAME].
+Here is that page&#x27;s HTML:
+[PASTE]
+Here is js/components.js:
+[PASTE]
+Console errors:
+[PASTE OR &quot;none&quot;]
+Find the problem and fix it.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Console shows red errors from maps.googleapis.com or other websites</summary><p><strong>Common cause:</strong> Errors that mention another website (Google Maps, YouTube, ads) come from that embedded iframe, not from your code.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>My console shows errors, but they mention another website, not my files:
+[PASTE THE ERRORS]
+My own files are: [LIST YOUR FILES]
+Tell me if these errors come from my code or from an embedded iframe (like Google Maps), and whether I can safely ignore them.</pre></div></details>
+<details class="err"><summary><span class="err-ic">!</span>Some sections are invisible (AOS animations)</summary><p><strong>Common cause:</strong> AOS CSS loaded but AOS JS failed or AOS.init() never ran, so elements stay hidden.</p><div class="prompt"><div class="prompt-bar"><span class="prompt-label">Fix prompt</span><button type="button" class="copy-btn" aria-label="Copy Fix prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Some sections of my page are invisible and never appear when I scroll. I use the AOS library.
+My &lt;link&gt; and &lt;script&gt; tags:
+[PASTE]
+My AOS.init code:
+[PASTE]
+Fix it, and make sure content is still visible even if AOS fails to load.</pre></div></details>
+      <div class="note green"><strong>Quick checks before asking AI:</strong> file saved? &middot; refreshed with <kbd>Ctrl</kbd>+<kbd>F5</kbd>? &middot; file name spelled exactly (capital letters matter)? &middot; file in the right folder? &middot; any red errors in Console?</div>
+    </div>
+
+    <div class="card" id="debug-python">
+      <h2>Python app common errors</h2>
+      <p>Find your error message below. Most setup problems have a quick fix.</p>
+      <details class="err"><summary><span class="err-ic">!</span><code>&#x27;python&#x27; is not recognized as an internal or external command</code></summary><p><strong>What it means:</strong> Python is not installed, or not added to PATH. On Windows a message may also offer the Microsoft Store.</p><p><strong>Quick fix:</strong> Reinstall Python from python.org and tick &quot;Add python.exe to PATH&quot; on the first installer screen. Close and reopen VS Code. Or try  py --version  instead of python.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>&#x27;pip&#x27; is not recognized</code></summary><p><strong>What it means:</strong> pip&#x27;s folder is not in PATH.</p><p><strong>Quick fix:</strong> Use  python -m pip install flask  (Mac/Linux: python3 -m pip install flask). This always uses the pip of the right Python.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>ModuleNotFoundError: No module named &#x27;flask&#x27;</code></summary><p><strong>What it means:</strong> Flask is not installed in the Python you are using: usually the venv is not active, or VS Code uses a different interpreter.</p><p><strong>Quick fix:</strong> Activate the venv (you must see (venv)), run  pip install flask , and in VS Code choose Ctrl+Shift+P &gt; Python: Select Interpreter &gt; the one inside venv.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>Activate.ps1 cannot be loaded because running scripts is disabled on this system</code></summary><p><strong>What it means:</strong> Windows PowerShell blocks scripts by default.</p><p><strong>Quick fix:</strong> Run  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser  and type Y. Or switch the VS Code terminal to Command Prompt and run  venv\Scripts\activate.bat</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>Address already in use / Port 5000 is in use by another program</code></summary><p><strong>What it means:</strong> Another server (maybe your app in another terminal) is already using port 5000. On Mac, AirPlay Receiver uses it.</p><p><strong>Quick fix:</strong> Stop the other terminal with Ctrl+C, or change the last line to  app.run(debug=True, port=5001)  and open http://127.0.0.1:5001</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>jinja2.exceptions.TemplateNotFound: index.html</code></summary><p><strong>What it means:</strong> Flask cannot find the template: the folder is not named exactly templates, the file is misspelled, or it is not next to app.py.</p><p><strong>Quick fix:</strong> The folder must be named templates (lowercase, with s) and be in the same folder as app.py. Run python app.py from inside the studybuddy folder.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>werkzeug.routing.exceptions.BuildError: Could not build url for endpoint &#x27;add&#x27;</code></summary><p><strong>What it means:</strong> url_for() uses the FUNCTION name, not the URL. The function is named add_task, not add.</p><p><strong>Quick fix:</strong> Use url_for(&#x27;add_task&#x27;). Check the PRD list of function names and keep them the same everywhere.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>sqlite3.OperationalError: no such table: tasks</code></summary><p><strong>What it means:</strong> init_db() did not run, or the app opened a different .db file in another folder.</p><p><strong>Quick fix:</strong> Make sure init_db() is called at start-up. Stop the app, delete studybuddy.db, and run python app.py again.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>IndentationError: unexpected indent / expected an indented block</code></summary><p><strong>What it means:</strong> Python uses spaces to group code. Something got pasted with wrong spaces or mixed tabs.</p><p><strong>Quick fix:</strong> Paste the complete file again. In VS Code use Ctrl+Shift+P &gt; &quot;Convert Indentation to Spaces&quot;. Use 4 spaces per level.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>Internal Server Error (500) in the browser</code></summary><p><strong>What it means:</strong> Python crashed while making the page. The real error is in the TERMINAL, not the browser.</p><p><strong>Quick fix:</strong> Look at the terminal for the Traceback. Copy all of it and use the Python error prompt below. Keep debug=True while learning.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>RuntimeError: The session is unavailable because no secret key was set</code></summary><p><strong>What it means:</strong> Flash messages need a secret key.</p><p><strong>Quick fix:</strong> Add  app.secret_key = &quot;change-this-to-any-random-text&quot;  just after  app = Flask(__name__)</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>GET /favicon.ico 404 in the terminal</code></summary><p><strong>What it means:</strong> The browser automatically asks for a small tab icon. If your app has none, Flask logs a 404. It is harmless.</p><p><strong>Quick fix:</strong> Ignore it, or add an icon link in base.html &lt;head&gt;, for example an emoji favicon with an inline SVG data URL.</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+<details class="err"><summary><span class="err-ic">!</span><code>My changes do not show in the browser</code></summary><p><strong>What it means:</strong> The file was not saved, the server did not reload, or the browser cached old CSS.</p><p><strong>Quick fix:</strong> Save the file (Ctrl+S). Restart the server (Ctrl+C, python app.py). Hard refresh the browser with Ctrl+F5 (Mac: Cmd+Shift+R).</p><p class="muted">Still stuck? Use the Python traceback prompt below with your full error.</p></details>
+      <h3 id="debug-pyprompt">Python traceback prompt</h3>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Python traceback prompt</span><button type="button" class="copy-btn" aria-label="Copy Python traceback prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>I am a beginner building a Python Flask app (StudyBuddy) on [Windows 11 / Mac].
+When I [ran python app.py / opened PAGE / clicked BUTTON] I got this error in the terminal:
+
+[PASTE THE FULL TRACEBACK, from &quot;Traceback (most recent call last):&quot; down to the very last line]
+
+Here is the code of the file named in the last &quot;File ...&quot; line of the traceback that belongs to my project:
+[PASTE THE COMPLETE FILE]
+
+My Python version (python --version): [PASTE]
+Is my venv active (do I see &quot;(venv)&quot; in the terminal)? [YES / NO]
+
+Explain the error in simple words, tell me the exact fix, and give me the corrected complete file.</pre></div>
+      <h3>Python setup check prompt</h3>
+      <p>Use when you are not sure Python, pip and venv are correctly installed (see the <a href="#py-prereq" data-goto="python">Prerequisites</a> section).</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Setup check prompt</span><button type="button" class="copy-btn" aria-label="Copy Setup check prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>Here is the output of these commands from my terminal (I am on [Windows 11 / Mac]):
+
+python --version
+[PASTE OUTPUT]
+
+python -m pip --version
+[PASTE OUTPUT]
+
+pip list
+[PASTE OUTPUT]
+
+where python   (Windows)  OR  which python3   (Mac/Linux)
+[PASTE OUTPUT]
+
+Tell me if my Python setup is correct for a Flask project using a virtual environment, and exactly what to fix if it is not.</pre></div>
+    </div>
+
+    <div class="card" id="debug-trace">
+      <h2>How to read a Python traceback (in 3 steps)</h2>
+      <ol>
+        <li><strong>Read the last line first.</strong> It has the error type and message, for example <code>NameError: name 'render_template' is not defined</code>.</li>
+        <li><strong>Find the last "File ..." line that is YOUR file</strong> (app.py, database.py). Ignore lines with <code>site-packages</code> or <code>flask</code> folders; that is library code.</li>
+        <li><strong>Open that file at that line number.</strong> In VS Code press <kbd>Ctrl</kbd>+<kbd>G</kbd> and type the line number.</li>
+      </ol>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Error type</th><th>Simple meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>SyntaxError</code></td><td>Typing/grammar mistake: missing bracket, colon or quote.</td></tr>
+          <tr><td><code>IndentationError</code></td><td>Wrong spaces at the start of a line.</td></tr>
+          <tr><td><code>NameError</code></td><td>Using a name that does not exist: typo or missing import.</td></tr>
+          <tr><td><code>ModuleNotFoundError</code></td><td>Package not installed in the active Python / venv.</td></tr>
+          <tr><td><code>TypeError</code></td><td>Wrong kind of value, for example adding text to a number.</td></tr>
+          <tr><td><code>KeyError</code></td><td>Asking a dictionary or form for a key that is not there.</td></tr>
+          <tr><td><code>TemplateNotFound</code></td><td>Flask cannot find the HTML file in templates/.</td></tr>
+          <tr><td><code>BuildError</code></td><td><code>url_for()</code> uses a function name that does not exist.</td></tr>
+          <tr><td><code>OperationalError</code></td><td>Database problem: missing table or wrong column name.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="card" id="debug-stuck">
+      <h2>When the AI goes in circles</h2>
+      <p>Sometimes the AI keeps giving fixes that don't work. Stop applying random code and send this:</p>
+      <div class="prompt"><div class="prompt-bar"><span class="prompt-label">Reset prompt</span><button type="button" class="copy-btn" aria-label="Copy Reset prompt to clipboard"><span class="ic" aria-hidden="true">&#x2398;</span> <span class="txt">Copy</span></button></div><pre>We have tried several fixes and the problem is still there. Stop and think step by step.
+1. List all possible causes of this problem, the most likely first.
+2. For each cause, give me one simple check I can do to confirm it or rule it out.
+3. Tell me exactly what information, file or screenshot you need from me.
+Do not give me new code until we have found the real cause.</pre></div>
+      <div class="note">Other tricks: start a <strong>new chat</strong> with the Resume prompt and the error (fresh context helps), try a <strong>different AI</strong>, or go back to your last working <strong>backup folder</strong>.</div>
+    </div>
+
+    <div class="card" id="debug-rules">
+      <h2>Golden rules of debugging with AI</h2>
+      <ol>
+        <li><strong>One error at a time.</strong> Fix the first red error first; it often causes the others.</li>
+        <li><strong>Paste the full error</strong>, not just part of it, and the <strong>current</strong> code of the file.</li>
+        <li><strong>Say which step</strong> you are on and what you changed just before it broke.</li>
+        <li><strong>Screenshot + text together</strong> gives the best answers.</li>
+        <li><strong>Back up before big changes:</strong> copy your project folder and name it like <code>skillnest-backup-step-12</code>.</li>
+        <li><strong>Apply the fix exactly</strong> where the AI says (replace whole file vs add at end).</li>
+        <li><strong>Test after every fix</strong>, then ask "why" to learn.</li>
+        <li><strong>Protect privacy:</strong> no passwords, keys or personal data in prompts or screenshots.</li>
+      </ol>
+      <div class="note green">You now have the three skills of an AI-assisted developer: <strong>plan</strong> (PRD), <strong>build</strong> (step prompts), and <strong>fix</strong> (debugging prompts). Use the same method for your college projects and freelance work.</div>
+    </div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; <span id="year">2026</span> TICL Academy &middot; Student Learners Hub</span>
+    <span>Learn AI tools with us: <a href="https://academy.ticl.in" target="_blank" rel="noopener">academy.ticl.in</a> &middot; Bhavnagar, Gujarat</span>
+  </div>
+</footer>
+
+<button class="to-top" type="button" aria-label="Back to top">&#x2191;</button>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- safe storage (works even if localStorage is blocked) ---------- */
+  var memStore = {};
+  var store = {
+    get: function (k) { try { return window.localStorage.getItem(k); } catch (e) { return memStore[k] || null; } },
+    set: function (k, v) { try { window.localStorage.setItem(k, v); } catch (e) { memStore[k] = v; } }
+  };
+
+  /* ---------- toast ---------- */
+  var toastEl = document.querySelector(".toast"), toastTimer;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 2200);
+  }
+
+  /* ---------- tabs ---------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll(".tab"));
+  var panels = { web: document.getElementById("web"), python: document.getElementById("python"), debug: document.getElementById("debug") };
+  function panelOf(el) { var p = el && el.closest ? el.closest(".panel") : null; return p ? p.id : null; }
+
+  function showTab(name, focus) {
+    if (!panels[name]) name = "web";
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-tab") === name;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.setAttribute("tabindex", on ? "0" : "-1");
+      if (on && focus) t.focus();
+    });
+    Object.keys(panels).forEach(function (k) { panels[k].classList.toggle("active", k === name); });
+  }
+
+  function scrollToId(id) {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function goToHash(hash, smooth) {
+    var id = (hash || "").replace(/^#/, "");
+    if (!id) { showTab("web"); return; }
+    if (panels[id]) { showTab(id); if (smooth) scrollToId("tabs"); return; }
+    var target = document.getElementById(id);
+    var p = panelOf(target);
+    if (p) { showTab(p); setTimeout(function () { scrollToId(id); }, 30); }
+  }
+
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () {
+      var name = t.getAttribute("data-tab");
+      showTab(name);
+      try { history.replaceState(null, "", "#" + name); } catch (e) {}
+      scrollToId("tabs");
+    });
+    t.addEventListener("keydown", function (e) {
+      var idx = null;
+      if (e.key === "ArrowRight") idx = (i + 1) % tabs.length;
+      if (e.key === "ArrowLeft") idx = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === "Home") idx = 0;
+      if (e.key === "End") idx = tabs.length - 1;
+      if (idx !== null) { e.preventDefault(); tabs[idx].click(); tabs[idx].focus(); }
+    });
+  });
+
+  /* in-page links: switch tab automatically when the target is in another tab */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute("href").slice(1);
+    if (!id) return;
+    var target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    if (panels[id]) { showTab(id); scrollToId("tabs"); }
+    else {
+      var p = panelOf(target);
+      if (p) showTab(p);
+      setTimeout(function () { scrollToId(id); }, 30);
+    }
+    try { history.replaceState(null, "", "#" + id); } catch (err) {}
+  });
+
+  window.addEventListener("hashchange", function () { goToHash(location.hash, true); });
+  goToHash(location.hash, false);
+
+  /* ---------- copy buttons ---------- */
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.top = "-1000px"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, text.length);
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  function selectText(el) {
+    try { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {}
+  }
+  function markBtn(btn, ok, pre) {
+    var txt = btn.querySelector(".txt");
+    btn.classList.remove("copied", "failed");
+    btn.classList.add(ok ? "copied" : "failed");
+    txt.textContent = ok ? "Copied!" : "Press Ctrl+C";
+    if (ok) toast("Copied! Now paste it in your AI chat (Ctrl+V)");
+    else { selectText(pre); toast("Text selected. Press Ctrl+C (Cmd+C on Mac) to copy"); }
+    setTimeout(function () { btn.classList.remove("copied", "failed"); txt.textContent = "Copy"; }, 2200);
+  }
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest ? e.target.closest(".copy-btn") : null;
+    if (!btn) return;
+    var pre = btn.closest(".prompt").querySelector("pre");
+    var text = pre.textContent;
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { markBtn(btn, true, pre); },
+        function () { markBtn(btn, fallbackCopy(text), pre); });
+    } else {
+      markBtn(btn, fallbackCopy(text), pre);
+    }
+  });
+
+  /* ---------- progress tracking ---------- */
+  var KEY = "ticl-ai-webdev-progress-v1";
+  var done = {};
+  try { done = JSON.parse(store.get(KEY) || "{}") || {}; } catch (e) { done = {}; }
+
+  function updateProgress() {
+    ["web", "py"].forEach(function (prefix) {
+      var cbs = document.querySelectorAll('.done-cb[data-key^="' + prefix + '-"]');
+      var n = 0;
+      cbs.forEach(function (cb) { if (cb.checked) n++; });
+      var box = document.querySelector('[data-progress="' + prefix + '"]');
+      if (!box) return;
+      box.querySelector("i").style.width = (cbs.length ? (n / cbs.length) * 100 : 0) + "%";
+      box.querySelector("small").textContent = n + " of " + cbs.length + " steps done";
+    });
+  }
+  document.querySelectorAll(".done-cb").forEach(function (cb) {
+    var key = cb.getAttribute("data-key");
+    var step = document.getElementById(key);
+    var link = document.querySelector('.side a[href="#' + key + '"]');
+    function paint() {
+      if (step) step.classList.toggle("done", cb.checked);
+      if (link) link.classList.toggle("is-done", cb.checked);
+    }
+    cb.checked = !!done[key];
+    paint();
+    cb.addEventListener("change", function () {
+      if (cb.checked) done[key] = 1; else delete done[key];
+      store.set(KEY, JSON.stringify(done));
+      paint(); updateProgress();
+      if (cb.checked) toast("Great! Step marked as done");
+    });
+  });
+  updateProgress();
+
+  /* ---------- back to top + year ---------- */
+  var topBtn = document.querySelector(".to-top");
+  window.addEventListener("scroll", function () { topBtn.classList.toggle("show", window.scrollY > 600); }, { passive: true });
+  topBtn.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+  document.getElementById("year").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
